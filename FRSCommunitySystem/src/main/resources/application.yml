@@ -1,0 +1,24 @@
+#服务配置
+server:
+  port: 9002
+#spring配置
+spring:
+  #1.应用配置
+  application:
+    name: FRS-USER #指定服务名
+  #2.数据库连接池
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://42.194.211.199:3306/frscommunity?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true
+    username: clg
+    password: MYSQLzhu19981210.@
+  #3.JPA
+  jpa:
+    database: MySQL
+    show-sql: true
+    open-in-view: true
+  redis:
+    host: 42.194.211.199
+    port: 6379
+    password: Rxz129810.@EDIS
+
