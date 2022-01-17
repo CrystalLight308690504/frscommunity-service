@@ -19,7 +19,14 @@ public enum ResultCode {
     SERVER_ERROR(false,99999,"抱歉，系统繁忙，请稍后重试！"),
 
     //---用户操作返回码  2xxxx----
-    MOBILEORPASSWORDERROR(false,20001,"用户名或密码错误");
+    MOBILEORPASSWORDERROR(false,20001,"用户名或密码错误"),
+    USERNAMEEXITED(false,20002,"用户名存在"),
+    USERMAILEXITED(false,20003,"用户邮箱已被绑定"),
+    NOUSERNAMEINPUTED(false,20004,"请输入用户名"),
+    NOUSERPHONENUMBERIPUTED(false,20005,"请输入手机号"),
+    USERNOEXITED(false,20006,"用户不存在")
+    ;
+
 
     //---企业操作返回码  3xxxx----
     //---权限操作返回码----

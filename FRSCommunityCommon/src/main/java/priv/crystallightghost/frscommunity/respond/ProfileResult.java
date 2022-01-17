@@ -23,7 +23,7 @@ public class ProfileResult implements Serializable, AuthCachePrincipal {
     private Map<String,Object> permission = new HashMap<>();
 
     public ProfileResult(User user) {
-        this.mobile = user.getPhone();
+        this.mobile = user.getPhoneNumber();
         this.username = user.getUserName();
         this.userId = user.getEmail();
         Set<Role> roles = user.getRoles();

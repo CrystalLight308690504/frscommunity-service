@@ -28,7 +28,10 @@ public class User  implements Serializable {
     @Column(name = "user_id")
     private long userId;
 
-
+    @Getter
+    @Setter
+    @Transient
+    private String sessionId;
     @Column(name = "user_name")
     private String userName = "";
     @Basic
@@ -38,8 +41,8 @@ public class User  implements Serializable {
     @Column(name = "password")
     private String password="";
     @Basic
-    @Column(name = "phone")
-    private String phone = "";
+    @Column(name = "phone_number")
+    private String phoneNumber = "";
     @OneToOne
     @JoinColumn(name = "user_info_id")
     private UserInformation userInfo ;
@@ -51,7 +54,7 @@ public class User  implements Serializable {
                 ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", phone='" + phone + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 ", userInfo=" + userInfo +
                 '}';
     }
@@ -71,11 +74,11 @@ public class User  implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return userId == user.userId && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(phone, user.phone);
+        return userId == user.userId && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(phoneNumber, user.phoneNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, userName, email, password, phone);
+        return Objects.hash(userId, userName, email, password, phoneNumber);
     }
 }

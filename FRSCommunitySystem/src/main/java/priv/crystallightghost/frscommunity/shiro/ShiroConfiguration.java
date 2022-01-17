@@ -60,12 +60,11 @@ public class ShiroConfiguration {
         //anon -- 匿名访问
         filterMap.put("/user/login","anon");
         filterMap.put("/user/register","anon");
+        // 需要登陆权限 这个必须放在最后面
+        filterMap.put("/user/**","authc");
         //注册
-        //authc -- 认证之后访问（登录）
-        filterMap.put("/**","authc");
         //perms -- 具有某中权限 (使用注解配置授权)
         filterFactory.setFilterChainDefinitionMap(filterMap);
-
         return filterFactory;
     }
 
@@ -104,7 +103,7 @@ public class ShiroConfiguration {
         UserSessionManager sessionManager = new UserSessionManager();
         sessionManager.setSessionDAO(redisSessionDAO());
         //禁用cookie
-        //sessionManager.setSessionIdCookieEnabled(false);
+        sessionManager.setSessionIdCookieEnabled(false);
         //禁用url重写   url;jsessionid=id
         sessionManager.setSessionIdUrlRewritingEnabled(false);
         return sessionManager;

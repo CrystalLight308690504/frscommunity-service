@@ -17,7 +17,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="FRSCommunityCommon" options="-parameters" />
       <module name="FRSCommunityModel" options="-parameters" />
-      <module name="FRSCommunityServer" options="-parameters" />
+      <module name="FRSCommunityServer" options="" />
       <module name="FRSCommunitySystem" options="-parameters" />
     </option>
   </component>

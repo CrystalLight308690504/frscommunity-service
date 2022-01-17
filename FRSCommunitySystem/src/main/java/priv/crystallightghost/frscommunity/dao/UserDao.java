@@ -15,7 +15,9 @@ import priv.crystallightghost.frscommunity.pojo.system.User;
 public interface UserDao extends JpaRepository<User,Long>, JpaSpecificationExecutor<User> {
 
 
-    User findUserByPhone(String phone);
+    User findUserByPhoneNumber(String phoneNumber);
     User findUserByUserName(String userName);
+    User findUserByEmail(String email);
+    User findUserByUserId(long userId);
 
 }

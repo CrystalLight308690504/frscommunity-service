@@ -28,6 +28,8 @@ public class UserSessionManager extends DefaultWebSessionManager {
             return super.getSessionId(request,response);
         }else{
 
+            //请求头信息：bearer sessionid
+            id = id.replaceAll("FRSC","");
             //返回sessionId；
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID_SOURCE, "header");
             request.setAttribute(ShiroHttpServletRequest.REFERENCED_SESSION_ID, id);

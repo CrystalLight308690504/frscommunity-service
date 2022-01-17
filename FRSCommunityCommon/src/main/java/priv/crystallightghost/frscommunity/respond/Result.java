@@ -43,8 +43,16 @@ public class Result {
         this.success = success;
     }
 
+    public Result(ResultCode code, String message, boolean success) {
+        this.success = code.success;
+        this.code = code.code;
+        this.message = message;
+    }
+
     public static Result SUCCESS(){
-        return new Result();
+
+        Result result = new Result(ResultCode.SUCCESS);
+        return result;
     }
 
     public static Result ERROR(){
