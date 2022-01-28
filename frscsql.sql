@@ -61,7 +61,7 @@ CREATE TABLE `role` (
   PRIMARY KEY (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-drop table if exists 'user';
+drop table if exists user;
 CREATE TABLE `user` (
   `user_id` bigint NOT NULL COMMENT '用户id',
   `user_info_id` bigint DEFAULT NULL COMMENT '用户id',
@@ -69,15 +69,7 @@ CREATE TABLE `user` (
   `email` char(64) DEFAULT NULL COMMENT '邮箱',
   `password` varchar(32) DEFAULT NULL COMMENT '密码',
   `phone_number` varchar(32) DEFAULT NULL,
-  PRIMARY KEY (`user_id`),
-  KEY `Index_phone` (`phone_number`),
-  KEY `Index_email` (`email`),
-  KEY `Index_username` (`user_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-CREATE TABLE `user_information` (
-  `user_info_id` bigint NOT NULL COMMENT '用户id',
-  `profile` varchar(255) DEFAULT NULL COMMENT '头像',
+    `profile` varchar(255) DEFAULT NULL COMMENT '头像',
   `introduce` varchar(255) DEFAULT NULL COMMENT '个人介绍',
   `credit` bigint DEFAULT NULL COMMENT '用户积分',
   `gender` bit(1) DEFAULT NULL COMMENT '性别 0 为女 1为男',
@@ -87,7 +79,10 @@ CREATE TABLE `user_information` (
   `profession` varchar(255) DEFAULT NULL COMMENT '职业',
   `description` varbinary(255) DEFAULT NULL COMMENT '用户自我描述',
   `address_ip` varchar(255) DEFAULT NULL COMMENT '上次登陆ip地址',
-  PRIMARY KEY (`user_info_id`)
+  PRIMARY KEY (`user_id`),
+  index `Index_phone` (`phone_number`),
+  index `Index_email` (`email`),
+  index `Index_username` (`user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `user_role` (

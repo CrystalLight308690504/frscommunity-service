@@ -60,6 +60,8 @@ public class ShiroConfiguration {
         //anon -- 匿名访问
         filterMap.put("/user/login","anon");
         filterMap.put("/user/register","anon");
+        filterMap.put("/user/isLogined","anon");
+        filterMap.put("/user/modifyUserPasswordByPhoneNumber","anon");
         // 需要登陆权限 这个必须放在最后面
         filterMap.put("/user/**","authc");
         //注册
@@ -84,6 +86,7 @@ public class ShiroConfiguration {
         redisManager.setHost(host);
         redisManager.setPort(port);
         redisManager.setPassword(password);
+        redisManager.setTimeout(1296000000);
         return redisManager;
     }
 
@@ -101,6 +104,7 @@ public class ShiroConfiguration {
      */
     public DefaultWebSessionManager sessionManager() {
         UserSessionManager sessionManager = new UserSessionManager();
+        sessionManager.setGlobalSessionTimeout(1296000000L);
         sessionManager.setSessionDAO(redisSessionDAO());
         //禁用cookie
         sessionManager.setSessionIdCookieEnabled(false);

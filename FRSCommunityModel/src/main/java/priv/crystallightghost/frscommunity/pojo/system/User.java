@@ -7,8 +7,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -32,20 +32,53 @@ public class User  implements Serializable {
     @Setter
     @Transient
     private String sessionId;
+
+    @Getter
+    @Setter
+    @Transient
+    private String oldPassword;
+
     @Column(name = "user_name")
-    private String userName = "";
+    private String userName;
     @Basic
     @Column(name = "email")
-    private String email = "";
+    private String email;
     @Basic
     @Column(name = "password")
-    private String password="";
+    private String password;
     @Basic
     @Column(name = "phone_number")
-    private String phoneNumber = "";
-    @OneToOne
-    @JoinColumn(name = "user_info_id")
-    private UserInformation userInfo ;
+    private String phoneNumber ;
+    @Basic
+    @Column(name = "profile")
+    private String profile;
+    @Basic
+    @Column(name = "introduce")
+    private String introduce;
+    @Basic
+    @Column(name = "credit")
+    private Long credit;
+    @Basic
+    @Column(name = "gender")
+    private Boolean gender;
+    @Basic
+    @Column(name = "created_time")
+    private Timestamp createdTime;
+    @Basic
+    @Column(name = "last_login_time")
+    private Timestamp lastLoginTime;
+    @Basic
+    @Column(name = "login_time")
+    private Timestamp loginTime;
+    @Basic
+    @Column(name = "profession")
+    private String profession;
+    @Basic
+    @Column(name = "description")
+    private byte[] description;
+    @Basic
+    @Column(name = "address_ip")
+    private String addressIp;
 
     @Override
     public String toString() {
@@ -55,7 +88,6 @@ public class User  implements Serializable {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", userInfo=" + userInfo +
                 '}';
     }
 
@@ -69,16 +101,4 @@ public class User  implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")})
     private Set<Role> roles = new HashSet<Role>();//用户与角色   多对多
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return userId == user.userId && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(phoneNumber, user.phoneNumber);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId, userName, email, password, phoneNumber);
-    }
 }

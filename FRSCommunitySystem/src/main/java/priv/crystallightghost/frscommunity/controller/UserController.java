@@ -69,14 +69,23 @@ public class UserController extends BaseController {
         return userService.login(loginIdenty, password);
     }
 
-    @RequestMapping(value = "/modifyUserName", method = RequestMethod.POST)
+    @RequestMapping(value = "/modifyUserName", method = RequestMethod.PUT)
     public Result modifyUserName(@RequestBody User user) {
         return userService.modifyUserName(user);
     }
 
-    @RequestMapping(value = "/modifyUserPassword", method = RequestMethod.POST)
-    public Result modifyUserPassword(@RequestBody User user) {
-        return userService.modifyUserPassword(user);
+    @RequestMapping(value = "/modifyUserEmail", method = RequestMethod.PUT)
+    public Result modifyUserEmail(@RequestBody User user) {
+        return userService.modifyUserEmail(user);
+    }
+
+    @RequestMapping(value = "/modifyUserPasswordByPhoneNumber", method = RequestMethod.PUT)
+    public Result modifyUserPasswordByPhoneNumber(@RequestBody User user) {
+        return userService.modifyUserPasswordByPhoneNumber(user);
+    }
+  @RequestMapping(value = "/modifyUserPasswordByOldPassword", method = RequestMethod.PUT)
+    public Result modifyUserPasswordByOldPassword(@RequestBody User user) {
+        return userService.modifyUserPasswordByOldPassword(user);
     }
 
     /**
@@ -101,6 +110,16 @@ public class UserController extends BaseController {
     public Result verifyEmailExited(@PathVariable String email) {
         System.out.printf(email);
         return userService.verifyEmailExited(email);
+    }
+
+    @RequestMapping(value = "/isLogined",method = RequestMethod.GET)
+    public Result isLogined(HttpServletRequest request) {
+        String id = request.getHeader("Authorization");
+        if (StringUtils.isEmpty(id)) {
+            return new Result(ResultCode.USERNOEXITED);
+        }
+        id = id.replaceAll("FRSC", "shiro:session:");
+        return userService.isLogined(id);
     }
 
 }

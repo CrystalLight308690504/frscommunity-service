@@ -7,13 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import priv.crystallightghost.frscommunity.dao.UserDao;
-import priv.crystallightghost.frscommunity.dao.UserInformationDao;
 import priv.crystallightghost.frscommunity.pojo.system.User;
-import priv.crystallightghost.frscommunity.pojo.system.UserInformation;
 import priv.crystallightghost.frscommunity.respond.Result;
 import priv.crystallightghost.frscommunity.respond.ResultCode;
-import priv.crystallightghost.frscommunity.until.IdWorker;
-import priv.crystallightghost.frscommunity.until.PasswordMd5Util;
+import priv.crystallightghost.frscommunity.until.FRSCIdWorker;
+import priv.crystallightghost.frscommunity.until.FRSCPasswordMd5Util;
 import redis.clients.jedis.Jedis;
 
 /**
@@ -30,22 +28,10 @@ public class UserService {
     UserDao userDao;
 
     @Autowired
-    UserInformationDao userInformationDao;
-    @Autowired
-    IdWorker idWorker;
+    FRSCIdWorker FRSCIdWorker;
 
     @Autowired
     Jedis jedis;
-
-    public Result logout(String authorization) {
-
-        String s = jedis.get(authorization);
-        if (!StringUtils.isEmpty(s)){
-            jedis.del(authorization);
-        }
-        return Result.SUCCESS();
-
-    }
 
 
     public User findUserByUserName(String userName) {
@@ -61,7 +47,7 @@ public class UserService {
         try {
             //1.构造登录令牌 UsernamePasswordToken
             //加密密码
-            password = PasswordMd5Util.getPasswordCoded(password);
+            password = FRSCPasswordMd5Util.getPasswordCoded(password);
             ;  //1.密码，盐，加密次数
             UsernamePasswordToken upToken = new UsernamePasswordToken(loginIdentity, password);
 
@@ -84,6 +70,17 @@ public class UserService {
         }
     }
 
+    public Result logout(String authorization) {
+
+        String s = jedis.get(authorization);
+        if (!StringUtils.isEmpty(s)) {
+            jedis.del(authorization);
+            return Result.SUCCESS();
+        }else {
+            return  new Result(ResultCode.USER_LOGIN_EXPIRED);
+        }
+    }
+
     public boolean existedByPhoneNum(String phone) {
         User user = userDao.findUserByPhoneNumber(phone);
         if (StringUtils.isEmpty(user)) {
@@ -96,9 +93,9 @@ public class UserService {
     public Result verifyUserNameExited(String userName) {
         User user = userDao.findUserByUserName(userName);
         if (StringUtils.isEmpty(user)) {
-            return  new Result(ResultCode.SUCCESS,false);
+            return new Result(ResultCode.SUCCESS, false);
         } else {
-            return  new Result(ResultCode.SUCCESS,true);
+            return new Result(ResultCode.SUCCESS, true);
         }
     }
 
@@ -109,20 +106,14 @@ public class UserService {
         User userInD = null;
         userInD = userDao.findUserByPhoneNumber(user.getPhoneNumber());
         if (userInD != null) {
-            return new Result(ResultCode.FAIL, "该号码已被注册");
+            return new Result(ResultCode.USERNAMEEXITED, "");
         }
 
-        user.setUserId(idWorker.nextId());
-        user.setUserName("FRSC" + idWorker.nextId());
+        user.setUserId(FRSCIdWorker.nextId());
+        user.setUserName("FRSC" + FRSCIdWorker.nextId());
         String password = user.getPassword();
-        password = PasswordMd5Util.getPasswordCoded(password);
+        password = FRSCPasswordMd5Util.getPasswordCoded(password);
         user.setPassword(password);
-
-        UserInformation userInformation = new UserInformation();
-        userInformation.setUserInfoId(idWorker.nextId());
-        userInformationDao.save(userInformation);
-
-        user.setUserInfo(userInformation);
         userDao.save(user);
 
         return new Result(ResultCode.SUCCESS);
@@ -131,9 +122,9 @@ public class UserService {
     public Result verifyEmailExited(String email) {
         User user = userDao.findUserByEmail(email);
         if (StringUtils.isEmpty(user)) {
-            return  new Result(ResultCode.SUCCESS,false);
+            return new Result(ResultCode.SUCCESS, false);
         } else {
-            return  new Result(ResultCode.SUCCESS,true);
+            return new Result(ResultCode.SUCCESS, true);
         }
     }
 
@@ -148,16 +139,51 @@ public class UserService {
         }
     }
 
-    public Result modifyUserPassword(User user) {
+    public Result modifyUserPasswordByPhoneNumber(User user) {
         User userDt = userDao.findUserByUserId(user.getUserId());
         if (StringUtils.isEmpty(userDt)) {
             return new Result(ResultCode.USERNOEXITED);
         } else {
-            String password = PasswordMd5Util.getPasswordCoded(user.getPassword());
+            String password = FRSCPasswordMd5Util.getPasswordCoded(user.getPassword());
             userDt.setPassword(password);
             userDao.save(userDt);
             return Result.SUCCESS();
         }
     }
 
+    public Result isLogined(String id) {
+        String s = jedis.get(id);
+        if (!StringUtils.isEmpty(s)) {
+            return Result.SUCCESS();
+        }else {
+            return  new Result(ResultCode.USER_LOGIN_EXPIRED);
+        }
+    }
+
+    public Result modifyUserEmail(User user) {
+        User userDt = userDao.findUserByUserId(user.getUserId());
+        if (StringUtils.isEmpty(userDt)) {
+            return new Result(ResultCode.USERNOEXITED);
+        } else {
+            userDt.setEmail(user.getEmail());
+            userDao.save(userDt);
+            return Result.SUCCESS();
+        }
+    }
+
+    public Result modifyUserPasswordByOldPassword(User user) {
+        // 检查旧密码是否是错的
+        String oldPassword = user.getOldPassword();
+        oldPassword = FRSCPasswordMd5Util.getPasswordCoded(oldPassword);
+        User userD = this.userDao.findUserByUserId(user.getUserId());
+        if (null != userD && userD.getPassword().equals(oldPassword)) {
+            String passwordCoded = FRSCPasswordMd5Util.getPasswordCoded(user.getPassword());
+            userD.setPassword(passwordCoded);
+            userDao.save(userD);
+            return Result.SUCCESS();
+        } else {
+            return new Result (123, "旧密码错误",false);
+        }
+
+    }
 }

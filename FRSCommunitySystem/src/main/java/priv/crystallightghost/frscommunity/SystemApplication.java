@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
-import priv.crystallightghost.frscommunity.until.IdWorker;
+import priv.crystallightghost.frscommunity.until.FRSCIdWorker;
 import redis.clients.jedis.Jedis;
 
 /**
@@ -24,8 +24,8 @@ public class SystemApplication {
     }
 
     @Bean
-    public IdWorker idWorkker() {
-        return new IdWorker(1, 1);
+    public FRSCIdWorker idWorkker() {
+        return new FRSCIdWorker(1, 1);
     }
 
     @Value("${spring.redis.host}")

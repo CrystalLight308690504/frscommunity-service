@@ -20,11 +20,12 @@ public enum ResultCode {
 
     //---用户操作返回码  2xxxx----
     MOBILEORPASSWORDERROR(false,20001,"用户名或密码错误"),
-    USERNAMEEXITED(false,20002,"用户名存在"),
+    USERNAMEEXITED(false,20002,"号码已被注册"),
     USERMAILEXITED(false,20003,"用户邮箱已被绑定"),
     NOUSERNAMEINPUTED(false,20004,"请输入用户名"),
     NOUSERPHONENUMBERIPUTED(false,20005,"请输入手机号"),
-    USERNOEXITED(false,20006,"用户不存在")
+    USERNOEXITED(false,20006,"用户不存在"),
+    USER_LOGIN_EXPIRED(false,20007,"登陆已经失效")
     ;
 
 

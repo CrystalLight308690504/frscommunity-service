@@ -1,0 +1,8 @@
+priv\crystallightghost\frscommunity\dao\UserDao.class
+priv\crystallightghost\frscommunity\service\UserService.class
+priv\crystallightghost\frscommunity\service\PermissionService.class
+priv\crystallightghost\frscommunity\controller\UserController.class
+priv\crystallightghost\frscommunity\DruidConfiguration.class
+priv\crystallightghost\frscommunity\shiro\realm\UserRealm.class
+priv\crystallightghost\frscommunity\SystemApplication.class
+priv\crystallightghost\frscommunity\shiro\ShiroConfiguration.class

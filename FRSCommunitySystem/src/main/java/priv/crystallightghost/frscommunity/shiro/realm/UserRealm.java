@@ -23,6 +23,7 @@ public class UserRealm extends BaseRealm {
     private PermissionService permissionService;
 
     //认证方法
+    @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 
         System.out.println("AuthenticationInfo...........");
