@@ -9,15 +9,17 @@
         <outputRelativeToContentRoot value="true" />
         <module name="FRSCommunitySystem" />
         <module name="FRSCommunityCommon" />
+        <module name="FRSCommunityBlog" />
         <module name="FRSCommunityModel" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="FRSCommunityBlog" options="-parameters" />
       <module name="FRSCommunityCommon" options="-parameters" />
       <module name="FRSCommunityModel" options="-parameters" />
-      <module name="FRSCommunityServer" options="-parameters" />
+      <module name="FRSCommunityServer" options="" />
       <module name="FRSCommunitySystem" options="-parameters" />
     </option>
   </component>

@@ -21,7 +21,6 @@ public class BaseController {
     public void setResAnReq(HttpServletRequest request,HttpServletResponse response) {
         this.request = request;
         this.response = response;
-
         //获取session中的安全数据
         Subject subject = SecurityUtils.getSubject();
         //1.subject获取所有的安全数据集合

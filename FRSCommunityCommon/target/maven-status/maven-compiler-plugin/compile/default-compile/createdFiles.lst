@@ -5,7 +5,5 @@ priv\crystallightghost\frscommunity\respond\ProfileResult.class
 priv\crystallightghost\frscommunity\controller\BaseController.class
 priv\crystallightghost\frscommunity\respond\Result.class
 priv\crystallightghost\frscommunity\shiro\session\UserSessionManager.class
-priv\crystallightghost\frscommunity\until\PasswordMd5Util.class
 priv\crystallightghost\frscommunity\respond\ResultCode.class
 priv\crystallightghost\frscommunity\exception\CommonException.class
-priv\crystallightghost\frscommunity\until\IdWorker.class

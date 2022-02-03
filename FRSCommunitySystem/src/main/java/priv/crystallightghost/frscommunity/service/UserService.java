@@ -14,6 +14,8 @@ import priv.crystallightghost.frscommunity.until.FRSCIdWorker;
 import priv.crystallightghost.frscommunity.until.FRSCPasswordMd5Util;
 import redis.clients.jedis.Jedis;
 
+import java.sql.Timestamp;
+
 /**
  * @Author CrystalLightGhost
  * @Date 2020/9/11 18:29
@@ -62,8 +64,8 @@ public class UserService {
             if (StringUtils.isEmpty(user)) {// 手机号登陆
                 user = findUserByPhoneNum(loginIdentity);
             }
-
             user.setSessionId(sessionId);
+            user.setLastLoginTime( new Timestamp(System.currentTimeMillis()));
             return new Result(ResultCode.SUCCESS, user);
         } catch (Exception e) {
             return new Result(ResultCode.MOBILEORPASSWORDERROR);
@@ -109,6 +111,8 @@ public class UserService {
             return new Result(ResultCode.USERNAMEEXITED, "");
         }
 
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        user.setCreatedTime(timestamp);
         user.setUserId(FRSCIdWorker.nextId());
         user.setUserName("FRSC" + FRSCIdWorker.nextId());
         String password = user.getPassword();
@@ -174,6 +178,10 @@ public class UserService {
     public Result modifyUserPasswordByOldPassword(User user) {
         // 检查旧密码是否是错的
         String oldPassword = user.getOldPassword();
+        if (StringUtils.isEmpty(oldPassword)) {
+            return new Result (123, "请输入旧密码",false);
+
+        }
         oldPassword = FRSCPasswordMd5Util.getPasswordCoded(oldPassword);
         User userD = this.userDao.findUserByUserId(user.getUserId());
         if (null != userD && userD.getPassword().equals(oldPassword)) {
@@ -185,5 +193,38 @@ public class UserService {
             return new Result (123, "旧密码错误",false);
         }
 
+    }
+
+    public Result modifyUserProfile(User user) {
+        User userD = this.userDao.findUserByUserId(user.getUserId());
+        if (StringUtils.isEmpty(userD)) {
+            return new Result(ResultCode.USERNOEXITED);
+        } else {
+            userD.setProfile(user.getProfile());
+            userDao.save(userD);
+            return Result.SUCCESS();
+        }
+    }
+
+    public Result modifyUserDescription(User user) {
+        User userD = this.userDao.findUserByUserId(user.getUserId());
+        if (StringUtils.isEmpty(userD)) {
+            return new Result(ResultCode.USERNOEXITED);
+        } else {
+            userD.setDescription(user.getDescription());
+            userDao.save(userD);
+            return Result.SUCCESS();
+        }
+    }
+
+    public Result modifyUserGender(User user) {
+        User userD = this.userDao.findUserByUserId(user.getUserId());
+        if (StringUtils.isEmpty(userD)) {
+            return new Result(ResultCode.USERNOEXITED);
+        } else {
+            userD.setGender(user.getGender());
+            userDao.save(userD);
+            return Result.SUCCESS();
+        }
     }
 }

@@ -86,7 +86,6 @@ public class ShiroConfiguration {
         redisManager.setHost(host);
         redisManager.setPort(port);
         redisManager.setPassword(password);
-        redisManager.setTimeout(1296000000);
         return redisManager;
     }
 
@@ -96,6 +95,7 @@ public class ShiroConfiguration {
     public RedisSessionDAO redisSessionDAO() {
         RedisSessionDAO sessionDAO = new RedisSessionDAO();
         sessionDAO.setRedisManager(redisManager());
+        sessionDAO.setExpire(15*24*60*60*1000);
         return sessionDAO;
     }
 
@@ -104,7 +104,7 @@ public class ShiroConfiguration {
      */
     public DefaultWebSessionManager sessionManager() {
         UserSessionManager sessionManager = new UserSessionManager();
-        sessionManager.setGlobalSessionTimeout(1296000000L);
+        sessionManager.setGlobalSessionTimeout(15*24*60*60*1000);
         sessionManager.setSessionDAO(redisSessionDAO());
         //禁用cookie
         sessionManager.setSessionIdCookieEnabled(false);

@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import priv.crystallightghost.frscommunity.pojo.system.User;
 import priv.crystallightghost.frscommunity.respond.ProfileResult;
-import priv.crystallightghost.frscommunity.service.PermissionService;
 import priv.crystallightghost.frscommunity.service.UserService;
 
 /**
@@ -19,14 +18,10 @@ public class UserRealm extends BaseRealm {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private PermissionService permissionService;
-
     //认证方法
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 
-        System.out.println("AuthenticationInfo...........");
         //1.获取用户的手机号和密码
         UsernamePasswordToken upToken = (UsernamePasswordToken) authenticationToken;
         String loginIdentity = upToken.getUsername();

@@ -21,25 +21,25 @@ import java.util.Map;
 @RestController
 @CrossOrigin
 @RequestMapping("/user")
-public class UserController extends BaseController {
+public class UserController {
 
     @Autowired
     UserService userService;
 
     /**
      * 注销登入
+     *
      * @return
      */
     @RequestMapping(value = "/logout", method = RequestMethod.DELETE)
     public Result logout(HttpServletRequest request) {
         String id = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(id)){
+        if (StringUtils.isEmpty(id)) {
             return new Result(ResultCode.USERNOEXITED);
         }
-        id = id.replaceAll("FRSC","shiro:session:");
+        id = id.replaceAll("FRSC", "shiro:session:");
         return userService.logout(id);
     }
-
 
 
     /**
@@ -51,17 +51,17 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Result login(@RequestBody Map<String, String> loginMap) {
 
-        String loginIdenty =  null;
+        String loginIdenty = null;
         System.out.println("login...........");
         String userName = loginMap.get("userName");
         String phoneNumber = loginMap.get("phoneNumber");
-        if (!StringUtils.isEmpty(userName)){ // 用户名登陆
+        if (!StringUtils.isEmpty(userName)) { // 用户名登陆
             loginIdenty = userName;
-        }else if(!StringUtils.isEmpty(phoneNumber)){ // 手机号登陆
+        } else if (!StringUtils.isEmpty(phoneNumber)) { // 手机号登陆
             loginIdenty = phoneNumber;
-        }else if(StringUtils.isEmpty(userName)){
+        } else if (StringUtils.isEmpty(userName)) {
             return new Result(ResultCode.NOUSERNAMEINPUTED);
-        }else if(StringUtils.isEmpty(phoneNumber)){
+        } else if (StringUtils.isEmpty(phoneNumber)) {
             return new Result(ResultCode.NOUSERPHONENUMBERIPUTED);
         }
 
@@ -83,9 +83,25 @@ public class UserController extends BaseController {
     public Result modifyUserPasswordByPhoneNumber(@RequestBody User user) {
         return userService.modifyUserPasswordByPhoneNumber(user);
     }
-  @RequestMapping(value = "/modifyUserPasswordByOldPassword", method = RequestMethod.PUT)
+
+    @RequestMapping(value = "/modifyUserPasswordByOldPassword", method = RequestMethod.PUT)
     public Result modifyUserPasswordByOldPassword(@RequestBody User user) {
         return userService.modifyUserPasswordByOldPassword(user);
+    }
+
+    @RequestMapping(value = "/modifyUserProfile", method = RequestMethod.PUT)
+    public Result modifyUserProfile(@RequestBody User user) {
+        return userService.modifyUserProfile(user);
+    }
+
+    @RequestMapping(value = "/modifyUserGender", method = RequestMethod.PUT)
+    public Result modifyUserInformation(@RequestBody User user) {
+        return userService.modifyUserGender(user);
+    }
+
+    @RequestMapping(value = "/modifyUserDescription", method = RequestMethod.PUT)
+    public Result modifyUserDescription(@RequestBody User user) {
+        return userService.modifyUserDescription(user);
     }
 
     /**
@@ -103,7 +119,7 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/verifyUserName/{userName}", method = RequestMethod.GET)
     public Result verifyUserNameExited(@PathVariable String userName) {
 
-        return  userService.verifyUserNameExited(userName);
+        return userService.verifyUserNameExited(userName);
     }
 
     @RequestMapping(value = "/verifyEmail/{email}", method = RequestMethod.GET)
@@ -112,7 +128,7 @@ public class UserController extends BaseController {
         return userService.verifyEmailExited(email);
     }
 
-    @RequestMapping(value = "/isLogined",method = RequestMethod.GET)
+    @RequestMapping(value = "/isLogined", method = RequestMethod.GET)
     public Result isLogined(HttpServletRequest request) {
         String id = request.getHeader("Authorization");
         if (StringUtils.isEmpty(id)) {
