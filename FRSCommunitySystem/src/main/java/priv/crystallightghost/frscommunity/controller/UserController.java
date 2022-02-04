@@ -41,7 +41,6 @@ public class UserController {
         return userService.logout(id);
     }
 
-
     /**
      * 用户登录
      * 1.通过service根据mobile查询用户
@@ -137,5 +136,8 @@ public class UserController {
         id = id.replaceAll("FRSC", "shiro:session:");
         return userService.isLogined(id);
     }
+
+
+
 
 }

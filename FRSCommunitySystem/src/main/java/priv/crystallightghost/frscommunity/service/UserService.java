@@ -14,6 +14,7 @@ import priv.crystallightghost.frscommunity.until.FRSCIdWorker;
 import priv.crystallightghost.frscommunity.until.FRSCPasswordMd5Util;
 import redis.clients.jedis.Jedis;
 
+import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 
 /**
@@ -28,13 +29,12 @@ public class UserService {
 
     @Autowired
     UserDao userDao;
-
     @Autowired
     FRSCIdWorker FRSCIdWorker;
-
     @Autowired
     Jedis jedis;
-
+    @Autowired
+    HttpServletRequest request;
 
     public User findUserByUserName(String userName) {
         return userDao.findUserByUserName(userName);
@@ -44,6 +44,18 @@ public class UserService {
         return userDao.findUserByPhoneNumber(userName);
     }
 
+    public String getUserIdByAuthorization(){
+        String id = request.getHeader("Authorization");
+        if (StringUtils.isEmpty(id)) {
+            return null;
+        }
+        String userId = jedis.get(id);
+        if (StringUtils.isEmpty(userId)) {
+            return null;
+        }else {
+            return userId;
+        }
+    }
 
     public Result login(String loginIdentity, String password) {
         try {
@@ -65,7 +77,13 @@ public class UserService {
                 user = findUserByPhoneNum(loginIdentity);
             }
             user.setSessionId(sessionId);
-            user.setLastLoginTime( new Timestamp(System.currentTimeMillis()));
+            user.setLoginTime(new Timestamp(System.currentTimeMillis()));
+            userDao.save(user);
+
+            // 将用户的sessionId于用户id相影射
+            jedis.set(user.getSessionId()+"", user.getUserId()+"");
+            jedis.expire(user.getSessionId()+"", 15*24*60*60*1000);
+
             return new Result(ResultCode.SUCCESS, user);
         } catch (Exception e) {
             return new Result(ResultCode.MOBILEORPASSWORDERROR);
@@ -73,7 +91,6 @@ public class UserService {
     }
 
     public Result logout(String authorization) {
-
         String s = jedis.get(authorization);
         if (!StringUtils.isEmpty(s)) {
             jedis.del(authorization);

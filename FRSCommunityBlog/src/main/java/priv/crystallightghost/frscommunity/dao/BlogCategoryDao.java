@@ -2,20 +2,18 @@ package priv.crystallightghost.frscommunity.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import priv.crystallightghost.frscommunity.pojo.blog.Blog;
 import priv.crystallightghost.frscommunity.pojo.blog.BlogCategory;
 import priv.crystallightghost.frscommunity.pojo.system.User;
 
 import java.util.List;
 
 /**
- * @Date 2022/2/3
+ * @Date 2022/2/4
  * @Author crystalLightGhost
  * @Version: 1.0
  * description：
  */
-public interface BlogDao extends JpaRepository<Blog,Long>, JpaSpecificationExecutor<Blog> {
-    List<Blog> findBlogsByUser(User user);
+public interface BlogCategoryDao extends JpaRepository<BlogCategory,Long>, JpaSpecificationExecutor<BlogCategory> {
 
-    List<Blog> findBlogsByUserAndBlogCategory(User user, BlogCategory category);
+        List<BlogCategory> findBlogCategoryByUser(User user);
 }

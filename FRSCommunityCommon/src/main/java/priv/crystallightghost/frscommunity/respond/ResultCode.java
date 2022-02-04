@@ -11,6 +11,7 @@ package priv.crystallightghost.frscommunity.respond;
  */
 public enum ResultCode {
 
+    //---系统操作返回码  1xxxx----
     SUCCESS(true,10000,"操作成功！"),
     //---系统错误返回码-----
     FAIL(false,10001,"操作失败"),
@@ -29,9 +30,6 @@ public enum ResultCode {
     ;
 
 
-    //---企业操作返回码  3xxxx----
-    //---权限操作返回码----
-    //---其他操作返回码----
 
     //操作是否成功
     boolean success;

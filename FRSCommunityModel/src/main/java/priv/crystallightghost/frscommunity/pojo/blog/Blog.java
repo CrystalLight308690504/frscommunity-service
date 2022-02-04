@@ -1,5 +1,6 @@
 package priv.crystallightghost.frscommunity.pojo.blog;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import priv.crystallightghost.frscommunity.pojo.skatingtype.SkatingType;
 import priv.crystallightghost.frscommunity.pojo.system.User;
@@ -14,7 +15,7 @@ import java.sql.Timestamp;
  * description：
  */
 @Entity
-@Table(name = "blog")
+@Table(name = "blog", schema = "frscommunity", catalog = "")
 @Data
 public class Blog {
     @Id
@@ -24,9 +25,6 @@ public class Blog {
     @JoinColumn(name = "skating_type_id")
     private SkatingType skatingType;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private SelfBlogCategory blogCategory;
 
     @Basic
     @Column(name = "blog_title")
@@ -36,15 +34,18 @@ public class Blog {
     private String content;
     @OneToOne
     @JoinColumn(name = "next_content_id")
-    private Blog blog;
+    private Blog nextContent;
     @Basic
     @Column(name = "right_id")
     private Long rightId;
     @Basic
     @Column(name = "created_time")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Timestamp createdTime;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private BlogCategory blogCategory;
 }
