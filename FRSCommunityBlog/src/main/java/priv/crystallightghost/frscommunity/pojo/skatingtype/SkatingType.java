@@ -1,5 +1,7 @@
 package priv.crystallightghost.frscommunity.pojo.skatingtype;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -10,9 +12,11 @@ import java.util.Objects;
  * description：
  */
 @Entity
-@Table(name = "skating_type", schema = "frscommunity", catalog = "")
+@Data
+@Table(name = "skating_type")
 public class SkatingType {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // 添加这个表示由数据库自己生成 jpa步进行映射
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "skating_type_id")
     private long skatingTypeId;
@@ -23,29 +27,6 @@ public class SkatingType {
     @Column(name = "description")
     private String description;
 
-    public long getSkatingTypeId() {
-        return skatingTypeId;
-    }
-
-    public void setSkatingTypeId(long skatingTypeId) {
-        this.skatingTypeId = skatingTypeId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     @Override
     public boolean equals(Object o) {

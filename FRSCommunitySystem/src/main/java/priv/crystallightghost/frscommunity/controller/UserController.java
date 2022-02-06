@@ -126,6 +126,10 @@ public class UserController {
         System.out.printf(email);
         return userService.verifyEmailExited(email);
     }
+    @RequestMapping(value = "/getSkatingType", method = RequestMethod.GET)
+    public Result getSkatingType() {
+        return userService.getSkatingType();
+    }
 
     @RequestMapping(value = "/isLogined", method = RequestMethod.GET)
     public Result isLogined(HttpServletRequest request) {

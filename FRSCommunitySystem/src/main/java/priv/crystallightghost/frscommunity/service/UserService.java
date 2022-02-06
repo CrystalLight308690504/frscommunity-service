@@ -6,7 +6,9 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import priv.crystallightghost.frscommunity.dao.SkatingTypeDao;
 import priv.crystallightghost.frscommunity.dao.UserDao;
+import priv.crystallightghost.frscommunity.pojo.skatingtype.SkatingType;
 import priv.crystallightghost.frscommunity.pojo.system.User;
 import priv.crystallightghost.frscommunity.respond.Result;
 import priv.crystallightghost.frscommunity.respond.ResultCode;
@@ -16,6 +18,7 @@ import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @Author CrystalLightGhost
@@ -29,6 +32,8 @@ public class UserService {
 
     @Autowired
     UserDao userDao;
+    @Autowired
+    SkatingTypeDao skatingTypeDao;
     @Autowired
     FRSCIdWorker FRSCIdWorker;
     @Autowired
@@ -243,5 +248,11 @@ public class UserService {
             userDao.save(userD);
             return Result.SUCCESS();
         }
+    }
+
+    public Result getSkatingType() {
+        List<SkatingType> skatingTypes = skatingTypeDao.findAll();
+        return new Result(ResultCode.SUCCESS, skatingTypes);
+
     }
 }

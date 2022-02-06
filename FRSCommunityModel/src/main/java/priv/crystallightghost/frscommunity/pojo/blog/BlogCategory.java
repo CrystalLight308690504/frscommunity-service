@@ -1,6 +1,5 @@
 package priv.crystallightghost.frscommunity.pojo.blog;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import priv.crystallightghost.frscommunity.pojo.system.User;
 
@@ -37,7 +36,6 @@ public class BlogCategory {
     private String description;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 }
