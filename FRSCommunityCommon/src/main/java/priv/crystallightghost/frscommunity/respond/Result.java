@@ -55,6 +55,12 @@ public class Result {
         return result;
     }
 
+    public static Result SUCCESS(Object data) {
+        Result result = new Result(ResultCode.SUCCESS);
+        result.setData(data);
+        return result;
+    }
+
     public static Result ERROR(){
         return new Result(ResultCode.SERVER_ERROR);
     }

@@ -8,7 +8,6 @@ import priv.crystallightghost.frscommunity.respond.Result;
 import priv.crystallightghost.frscommunity.service.BlogService;
 import priv.crystallightghost.frscommunity.until.FRSCIdWorker;
 
-
 /**
  * @Date 2022/2/3
  * @Author crystalLightGhost
@@ -29,7 +28,7 @@ public class BlogController {
         return blogService.findBlogsByUserId(userId);
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public Result deleteBlog(@RequestBody Blog blog) {
         return blogService.deleteBlog(blog);
     }
@@ -47,7 +46,6 @@ public class BlogController {
     @RequestMapping(value = "/findBlogsByUserAndCategory/{userId}/{categoryId}", method = RequestMethod.GET)
     public Result findBlogsByUserAndCategory(@PathVariable("userId") long userId, @PathVariable("categoryId") long categoryId) {
         return blogService.findBlogsByUserAndCategory(userId, categoryId);
-
     }
     @RequestMapping(value = "/findBlogCategories/{userId}", method = RequestMethod.GET)
     public Result findBlogCategories(@PathVariable("userId") long userId) {
@@ -56,7 +54,14 @@ public class BlogController {
 
     @RequestMapping(value = "/addBlogCategory", method = RequestMethod.POST)
     public Result addBlogCategory(@RequestBody BlogCategory blogCategory) {
-        blogCategory.setCategoryId(idWorker.nextId());
         return blogService.addBlogCategory(blogCategory);
+    }
+    @RequestMapping(value = "/deleteBlogCategory", method = RequestMethod.DELETE)
+    public Result deleteBlogCategory(@RequestBody BlogCategory blogCategory) {
+        return blogService.deleteBlogCategory(blogCategory);
+    }
+ @RequestMapping(value = "/modifyBlogCategory", method = RequestMethod.PUT)
+    public Result modifyBlogCategory(@RequestBody BlogCategory blogCategory) {
+        return blogService.modifyBlogCategory(blogCategory);
     }
 }

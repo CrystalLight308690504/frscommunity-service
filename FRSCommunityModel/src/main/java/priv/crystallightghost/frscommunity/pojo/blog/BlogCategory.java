@@ -1,5 +1,6 @@
 package priv.crystallightghost.frscommunity.pojo.blog;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import priv.crystallightghost.frscommunity.pojo.system.User;
 
@@ -26,6 +27,7 @@ public class BlogCategory {
     private String categoryName;
     @Basic
     @Column(name = "created_time")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Timestamp createdTime;
 
     @OneToOne
