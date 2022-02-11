@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import priv.crystallightghost.frscommunity.pojo.blog.Blog;
 import priv.crystallightghost.frscommunity.pojo.blog.BlogCategory;
+import priv.crystallightghost.frscommunity.pojo.skatingtype.SkatingType;
 import priv.crystallightghost.frscommunity.pojo.system.User;
 
 import java.util.List;
@@ -16,6 +17,6 @@ import java.util.List;
  */
 public interface BlogDao extends JpaRepository<Blog,Long>, JpaSpecificationExecutor<Blog> {
     List<Blog> findBlogsByUser(User user);
-
+    List<Blog> findBlogsBySkatingType(SkatingType skatingType);
     List<Blog> findBlogsByUserAndBlogCategory(User user, BlogCategory category);
 }

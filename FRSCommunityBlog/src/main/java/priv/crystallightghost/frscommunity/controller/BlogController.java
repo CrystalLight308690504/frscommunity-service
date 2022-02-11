@@ -24,8 +24,13 @@ public class BlogController {
     FRSCIdWorker idWorker;
 
     @RequestMapping(value = "/findBlogsByUserId/{userId}", method = RequestMethod.GET)
-    public Result findBlogs(@PathVariable("userId") long userId) {
+    public Result findBlogsByUserId(@PathVariable("userId") long userId) {
         return blogService.findBlogsByUserId(userId);
+    }
+
+    @RequestMapping(value = "/findBlogsBySkatingTypeId/{skatingTypeId}", method = RequestMethod.GET)
+    public Result findBlogsBySkatingTypeId(@PathVariable("skatingTypeId") long skatingTypeId) {
+        return blogService.findBlogsBySkatingTypeId(skatingTypeId);
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
@@ -62,6 +67,6 @@ public class BlogController {
     }
  @RequestMapping(value = "/modifyBlogCategory", method = RequestMethod.PUT)
     public Result modifyBlogCategory(@RequestBody BlogCategory blogCategory) {
-        return blogService.modifyBlogCategory(blogCategory);
+          return blogService.modifyBlogCategory(blogCategory);
     }
 }

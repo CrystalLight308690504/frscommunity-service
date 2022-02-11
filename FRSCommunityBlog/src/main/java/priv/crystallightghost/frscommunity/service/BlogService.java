@@ -14,6 +14,7 @@ import priv.crystallightghost.frscommunity.dao.BlogCategoryDao;
 import priv.crystallightghost.frscommunity.dao.BlogDao;
 import priv.crystallightghost.frscommunity.pojo.blog.Blog;
 import priv.crystallightghost.frscommunity.pojo.blog.BlogCategory;
+import priv.crystallightghost.frscommunity.pojo.skatingtype.SkatingType;
 import priv.crystallightghost.frscommunity.pojo.system.User;
 import priv.crystallightghost.frscommunity.respond.Result;
 import priv.crystallightghost.frscommunity.respond.ResultCode;
@@ -143,5 +144,12 @@ public class BlogService {
             blogCategoryDao.save(blogCategoryData);
             return Result.SUCCESS();
         }
+    }
+
+    public Result findBlogsBySkatingTypeId(long skatingTypeId) {
+        SkatingType skatingType = new SkatingType();
+        skatingType.setSkatingTypeId(skatingTypeId);
+        List<Blog> blogs = blogDao.findBlogsBySkatingType(skatingType);
+        return Result.SUCCESS(blogs);
     }
 }
