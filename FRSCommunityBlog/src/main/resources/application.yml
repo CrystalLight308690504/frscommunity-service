@@ -12,11 +12,10 @@ spring:
     url: jdbc:mysql://42.194.211.199:3306/frscommunity?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true
     username: clg
     password: MYSQLzhu19981210.@
-    dbcp2:
-      initial-size: 3
-      min-idle: 3
-      max-idle: 15
-      max-total: 30
+    hikari:
+      minimum-idle: 3
+      maximum-pool-size: 5
+      max-lifetime: 0
   #3.JPA
   jpa:
     database: MySQL

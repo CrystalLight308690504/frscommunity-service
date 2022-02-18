@@ -23,16 +23,6 @@ public class BlogController {
     @Autowired
     FRSCIdWorker idWorker;
 
-    @RequestMapping(value = "/findBlogsByUserId/{userId}", method = RequestMethod.GET)
-    public Result findBlogsByUserId(@PathVariable("userId") long userId) {
-        return blogService.findBlogsByUserId(userId);
-    }
-
-    @RequestMapping(value = "/findBlogsBySkatingTypeId/{skatingTypeId}", method = RequestMethod.GET)
-    public Result findBlogsBySkatingTypeId(@PathVariable("skatingTypeId") long skatingTypeId) {
-        return blogService.findBlogsBySkatingTypeId(skatingTypeId);
-    }
-
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public Result deleteBlog(@RequestBody Blog blog) {
         return blogService.deleteBlog(blog);
@@ -46,6 +36,21 @@ public class BlogController {
     @RequestMapping(value = "/modifyBlog", method = RequestMethod.PUT)
     public Result modifyBlog(@RequestBody Blog blog) {
         return blogService.modifyBlog(blog);
+    }
+
+    @RequestMapping(value = "/findBlogsByUserId/{userId}", method = RequestMethod.GET)
+    public Result findBlogsByUserId(@PathVariable("userId") long userId) {
+        return blogService.findBlogsByUserId(userId);
+    }
+
+    @RequestMapping(value = "/findBlogsBySearchKey/{searchKey}/{pagerIndex}", method = RequestMethod.GET)
+    public Result findBlogsBySearchKey(@PathVariable("searchKey") String searchKey, @PathVariable("pagerIndex") int pagerIndex) {
+        return blogService.findBlogBySearchKey(searchKey, pagerIndex);
+    }
+
+    @RequestMapping(value = "/findBlogsBySkatingTypeId/{skatingTypeId}/{pagerIndex}", method = RequestMethod.GET)
+    public Result findBlogsBySkatingTypeId(@PathVariable("skatingTypeId") long skatingTypeId, @PathVariable("pagerIndex") int pagerIndex) {
+        return blogService.findBlogsBySkatingTypeId(skatingTypeId, pagerIndex);
     }
 
     @RequestMapping(value = "/findBlogsByUserAndCategory/{userId}/{categoryId}", method = RequestMethod.GET)

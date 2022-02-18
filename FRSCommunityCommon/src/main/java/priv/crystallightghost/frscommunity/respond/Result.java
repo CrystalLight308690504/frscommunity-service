@@ -44,9 +44,9 @@ public class Result {
     }
 
     public Result(ResultCode code, String message, boolean success) {
-        this.success = code.success;
         this.code = code.code;
         this.message = message;
+        this.success = success;
     }
 
     public static Result SUCCESS(){
