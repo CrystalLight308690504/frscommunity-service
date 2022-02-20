@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import priv.crystallightghost.frscommunity.dao.BlogCategoryDao;
 import priv.crystallightghost.frscommunity.dao.BlogDao;
+import priv.crystallightghost.frscommunity.dao.SkatingTypeDao;
 import priv.crystallightghost.frscommunity.pojo.blog.Blog;
 import priv.crystallightghost.frscommunity.pojo.blog.BlogCategory;
 import priv.crystallightghost.frscommunity.pojo.skatingtype.SkatingType;
@@ -34,6 +35,8 @@ public class BlogService {
     BlogDao blogDao;
     @Autowired
     BlogCategoryDao blogCategoryDao;
+    @Autowired
+    SkatingTypeDao skatingTypeDao;
     @Autowired
     FRSCIdWorker idWorker;
     String errorImage = "(ಥ﹏ಥ)";
@@ -57,6 +60,12 @@ public class BlogService {
             blogDao.delete(blogData);
             return Result.SUCCESS();
         }
+    }
+
+    public Result getSkatingType() {
+        List<SkatingType> skatingTypes = skatingTypeDao.findAll();
+        return new Result(ResultCode.SUCCESS, skatingTypes);
+
     }
 
     public Result modifyBlog(Blog blog) {
@@ -103,15 +112,25 @@ public class BlogService {
         User user = new User();
         user.setUserId(userId);
         List<BlogCategory> blogCategories = blogCategoryDao.findBlogCategoryByUser(user);
+        int size = blogCategories.size();
+        if (size == 0) {
+            BlogCategory blogCategory = new BlogCategory();
+            blogCategory.setCategoryName("默认收藏夹");
+            blogCategory.setUser(user);
+            blogCategory.setCategoryId(idWorker.nextId());
+            blogCategory.setCreatedTime(new Timestamp(System.currentTimeMillis()));
+            blogCategoryDao.save(blogCategory);
+            blogCategories.add(blogCategory);
+        }
         Result result = new Result(ResultCode.SUCCESS, blogCategories);
         return result;
     }
 
-    public Result findBlogBySearchKey(String searchKsy,int pagerIndex) {
-        Sort sort = Sort.by("createdTime");
-       String searchLikeKey =  searchKsy ;
+    public Result findBlogBySearchKey(String searchKsy, int pagerIndex) {
+        Sort sort = Sort.by("createdTime").descending();
+        String searchLikeKey = searchKsy;
         Slice<Blog> blogsSlice = blogDao.findByBlogTitleContainingOrContentContaining(searchLikeKey, searchLikeKey, PageRequest.of(pagerIndex, 10, sort));
-        PagerResult pagerResult = new PagerResult(blogsSlice.getContent(),blogsSlice.hasNext());
+        PagerResult pagerResult = new PagerResult(blogsSlice.getContent(), blogsSlice.hasNext());
         return Result.SUCCESS(pagerResult);
     }
 
@@ -126,10 +145,8 @@ public class BlogService {
     public Result findBlogsByUserAndCategory(long userId, long categoryId) {
         User user = new User();
         user.setUserId(userId);
-
         BlogCategory blogCategory = new BlogCategory();
         blogCategory.setCategoryId(categoryId);
-
         List<Blog> blogs = blogDao.findBlogsByUserAndBlogCategory(user, blogCategory);
         return new Result(ResultCode.SUCCESS, blogs);
     }
@@ -137,7 +154,7 @@ public class BlogService {
     public Result findBlogsBySkatingTypeId(long skatingTypeId, int pagerIndex) {
         SkatingType skatingType = new SkatingType();
         skatingType.setSkatingTypeId(skatingTypeId);
-        Sort sort = Sort.by("createdTime");
+        Sort sort = Sort.by("createdTime").descending();
         Slice<Blog> slice = blogDao.findBlogsBySkatingType(skatingType, PageRequest.of(pagerIndex, 10, sort));
         PagerResult pagerResult = new PagerResult(slice.getContent(), slice.hasNext());
         return Result.SUCCESS(pagerResult);

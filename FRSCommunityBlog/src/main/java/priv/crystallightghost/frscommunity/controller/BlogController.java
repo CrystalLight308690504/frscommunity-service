@@ -57,21 +57,27 @@ public class BlogController {
     public Result findBlogsByUserAndCategory(@PathVariable("userId") long userId, @PathVariable("categoryId") long categoryId) {
         return blogService.findBlogsByUserAndCategory(userId, categoryId);
     }
+
     @RequestMapping(value = "/findBlogCategories/{userId}", method = RequestMethod.GET)
     public Result findBlogCategories(@PathVariable("userId") long userId) {
         return blogService.findBlogCategories(userId);
     }
-
+    @RequestMapping(value = "/getSkatingType", method = RequestMethod.GET)
+    public Result getSkatingType() {
+        return blogService.getSkatingType();
+    }
     @RequestMapping(value = "/addBlogCategory", method = RequestMethod.POST)
     public Result addBlogCategory(@RequestBody BlogCategory blogCategory) {
         return blogService.addBlogCategory(blogCategory);
     }
+
     @RequestMapping(value = "/deleteBlogCategory", method = RequestMethod.DELETE)
     public Result deleteBlogCategory(@RequestBody BlogCategory blogCategory) {
         return blogService.deleteBlogCategory(blogCategory);
     }
- @RequestMapping(value = "/modifyBlogCategory", method = RequestMethod.PUT)
+
+    @RequestMapping(value = "/modifyBlogCategory", method = RequestMethod.PUT)
     public Result modifyBlogCategory(@RequestBody BlogCategory blogCategory) {
-          return blogService.modifyBlogCategory(blogCategory);
+        return blogService.modifyBlogCategory(blogCategory);
     }
 }
