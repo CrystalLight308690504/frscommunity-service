@@ -160,11 +160,6 @@ public class BlogService {
         return Result.SUCCESS(pagerResult);
     }
 
-    public Result findBlogsBySearchKey(String searchKey) {
-
-        return Result.SUCCESS();
-    }
-
     public Result deleteBlogCategory(BlogCategory blogCategory) {
         Optional<BlogCategory> optionalBlogCategory = blogCategoryDao.findById(blogCategory.getCategoryId());
         if (optionalBlogCategory.isEmpty()) {
@@ -187,5 +182,12 @@ public class BlogService {
             blogCategoryDao.save(blogCategoryData);
             return Result.SUCCESS();
         }
+    }
+
+    public Result countBlogs(long userId) {
+        User user = new User();
+        user.setUserId(userId);
+        long blogCount = blogDao.countBlogsByUser(user);
+        return Result.SUCCESS(blogCount);
     }
 }

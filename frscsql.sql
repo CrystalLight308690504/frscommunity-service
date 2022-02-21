@@ -222,3 +222,19 @@ create table blog_click_applause
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
+drop table if exists user_follower;
+
+/*==============================================================*/
+/* Table: user_follower                                         */
+/*==============================================================*/
+create table user_follower
+(
+    follower_id            bigint not null,
+    user_id              bigint comment '关注的用户id',
+    user_followed_id     bigint comment '被关注的用户id',
+    created_time         datetime comment '创建事件',
+    primary key (follower_id)
+)ENGINE = InnoDB
+ DEFAULT CHARSET = utf8mb4
+ COLLATE = utf8mb4_0900_ai_ci;
+

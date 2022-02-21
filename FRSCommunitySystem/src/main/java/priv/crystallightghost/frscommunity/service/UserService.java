@@ -4,10 +4,16 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import priv.crystallightghost.frscommunity.dao.UserDao;
+import priv.crystallightghost.frscommunity.dao.UserFollowerDao;
 import priv.crystallightghost.frscommunity.pojo.system.User;
+import priv.crystallightghost.frscommunity.pojo.system.UserFollower;
+import priv.crystallightghost.frscommunity.respond.PagerResult;
 import priv.crystallightghost.frscommunity.respond.Result;
 import priv.crystallightghost.frscommunity.respond.ResultCode;
 import priv.crystallightghost.frscommunity.until.FRSCIdWorker;
@@ -29,7 +35,8 @@ public class UserService {
 
     @Autowired
     UserDao userDao;
-
+    @Autowired
+    UserFollowerDao userFollowerDao;
     @Autowired
     FRSCIdWorker FRSCIdWorker;
     @Autowired
@@ -45,7 +52,7 @@ public class UserService {
         return userDao.findUserByPhoneNumber(userName);
     }
 
-    public String getUserIdByAuthorization(){
+    public String getUserIdByAuthorization() {
         String id = request.getHeader("Authorization");
         if (StringUtils.isEmpty(id)) {
             return null;
@@ -53,7 +60,7 @@ public class UserService {
         String userId = jedis.get(id);
         if (StringUtils.isEmpty(userId)) {
             return null;
-        }else {
+        } else {
             return userId;
         }
     }
@@ -82,8 +89,8 @@ public class UserService {
             userDao.save(user);
 
             // 将用户的sessionId于用户id相影射
-            jedis.set(user.getSessionId()+"", user.getUserId()+"");
-            jedis.expire(user.getSessionId()+"", 15*24*60*60*1000);
+            jedis.set(user.getSessionId() + "", user.getUserId() + "");
+            jedis.expire(user.getSessionId() + "", 15 * 24 * 60 * 60 * 1000);
 
             return new Result(ResultCode.SUCCESS, user);
         } catch (Exception e) {
@@ -96,8 +103,8 @@ public class UserService {
         if (!StringUtils.isEmpty(s)) {
             jedis.del(authorization);
             return Result.SUCCESS();
-        }else {
-            return  new Result(ResultCode.USER_LOGIN_EXPIRED);
+        } else {
+            return new Result(ResultCode.USER_LOGIN_EXPIRED);
         }
     }
 
@@ -177,8 +184,8 @@ public class UserService {
         String s = jedis.get(id);
         if (!StringUtils.isEmpty(s)) {
             return Result.SUCCESS();
-        }else {
-            return  new Result(ResultCode.USER_LOGIN_EXPIRED);
+        } else {
+            return new Result(ResultCode.USER_LOGIN_EXPIRED);
         }
     }
 
@@ -197,7 +204,7 @@ public class UserService {
         // 检查旧密码是否是错的
         String oldPassword = user.getOldPassword();
         if (StringUtils.isEmpty(oldPassword)) {
-            return new Result (123, "请输入旧密码",false);
+            return new Result(123, "请输入旧密码", false);
 
         }
         oldPassword = FRSCPasswordMd5Util.getPasswordCoded(oldPassword);
@@ -208,7 +215,7 @@ public class UserService {
             userDao.save(userD);
             return Result.SUCCESS();
         } else {
-            return new Result (123, "旧密码错误",false);
+            return new Result(123, "旧密码错误", false);
         }
 
     }
@@ -246,4 +253,18 @@ public class UserService {
         }
     }
 
+    public Result findUserByName(String userName, int pagerIndex) {
+
+        Sort sort = Sort.by("createdTime").descending();
+        Slice<User> usersSlice = userDao.findUsersByUserNameIsContaining(userName, PageRequest.of(pagerIndex, 10, sort));
+        PagerResult pagerResult = new PagerResult(usersSlice.getContent(), usersSlice.hasNext());
+        return Result.SUCCESS(pagerResult);
+    }
+
+    public Result followUser(UserFollower userFollower) {
+        userFollower.setFollowerId(FRSCIdWorker.nextId());
+        userFollower.setCreatedTime(new Timestamp(System.currentTimeMillis()));
+        userFollowerDao.save(userFollower);
+        return Result.SUCCESS();
+    }
 }

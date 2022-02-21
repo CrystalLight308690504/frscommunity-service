@@ -71,7 +71,7 @@ public class BlogController {
         return blogService.addBlogCategory(blogCategory);
     }
 
-    @RequestMapping(value = "/deleteBlogCategory", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteBlogCategory", method = RequestMethod.PUT)
     public Result deleteBlogCategory(@RequestBody BlogCategory blogCategory) {
         return blogService.deleteBlogCategory(blogCategory);
     }
@@ -79,5 +79,10 @@ public class BlogController {
     @RequestMapping(value = "/modifyBlogCategory", method = RequestMethod.PUT)
     public Result modifyBlogCategory(@RequestBody BlogCategory blogCategory) {
         return blogService.modifyBlogCategory(blogCategory);
+    }
+
+    @RequestMapping(value = "/countBlogs/{userId}", method = RequestMethod.GET)
+    public Result countBlogs(@PathVariable("userId") long userId) {
+        return blogService.countBlogs(userId);
     }
 }

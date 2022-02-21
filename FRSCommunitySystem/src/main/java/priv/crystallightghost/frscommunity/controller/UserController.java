@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import priv.crystallightghost.frscommunity.pojo.system.User;
+import priv.crystallightghost.frscommunity.pojo.system.UserFollower;
 import priv.crystallightghost.frscommunity.respond.Result;
 import priv.crystallightghost.frscommunity.respond.ResultCode;
 import priv.crystallightghost.frscommunity.service.UserService;
@@ -26,9 +27,14 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @RequestMapping(value = "/followUser", method = RequestMethod.POST)
+    public Result followUser(@RequestBody UserFollower userFollower) {
+        return  userService.followUser(userFollower);
+
+    }
+
     /**
      * 注销登入
-     *
      * @return
      */
     @RequestMapping(value = "/logout", method = RequestMethod.DELETE)
@@ -39,6 +45,12 @@ public class UserController {
         }
         id = id.replaceAll("FRSC", "shiro:session:");
         return userService.logout(id);
+    }
+
+    @RequestMapping(value = "/findUserByNameKey/{userName}/{pagerIndex}", method = RequestMethod.GET)
+    public Result findUserByName(@PathVariable("userName") String userName, @PathVariable("pagerIndex") int pagerIndex) {
+
+        return userService.findUserByName(userName, pagerIndex);
     }
 
     /**
@@ -136,8 +148,6 @@ public class UserController {
         id = id.replaceAll("FRSC", "shiro:session:");
         return userService.isLogined(id);
     }
-
-
 
 
 }

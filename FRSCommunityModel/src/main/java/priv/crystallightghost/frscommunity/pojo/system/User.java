@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -93,6 +94,19 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return userId == user.userId && Objects.equals(sessionId, user.sessionId) && Objects.equals(oldPassword, user.oldPassword) && Objects.equals(userName, user.userName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(profile, user.profile) && Objects.equals(introduce, user.introduce) && Objects.equals(credit, user.credit) && Objects.equals(gender, user.gender) && Objects.equals(createdTime, user.createdTime) && Objects.equals(lastLoginTime, user.lastLoginTime) && Objects.equals(loginTime, user.loginTime) && Objects.equals(profession, user.profession) && Objects.equals(description, user.description) && Objects.equals(addressIp, user.addressIp) && Objects.equals(roles, user.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, sessionId, oldPassword, userName, email, password, phoneNumber, profile, introduce, credit, gender, createdTime, lastLoginTime, loginTime, profession, description, addressIp, roles);
     }
 
     /**

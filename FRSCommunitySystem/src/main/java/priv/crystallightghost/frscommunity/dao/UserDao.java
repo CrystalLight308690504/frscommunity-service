@@ -1,6 +1,8 @@
 package priv.crystallightghost.frscommunity.dao;
 
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import priv.crystallightghost.frscommunity.pojo.system.User;
@@ -17,7 +19,7 @@ public interface UserDao extends JpaRepository<User,Long>, JpaSpecificationExecu
 
     User findUserByPhoneNumber(String phoneNumber);
     User findUserByUserName(String userName);
+    Slice<User> findUsersByUserNameIsContaining(String likePattern, Pageable pageable);
     User findUserByEmail(String email);
     User findUserByUserId(long userId);
-
 }
