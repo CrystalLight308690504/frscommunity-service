@@ -29,12 +29,42 @@ public class UserController {
 
     @RequestMapping(value = "/followUser", method = RequestMethod.POST)
     public Result followUser(@RequestBody UserFollower userFollower) {
-        return  userService.followUser(userFollower);
+        return userService.followUser(userFollower);
 
+    }
+    @RequestMapping(value = "/cancelFollowUser/{userId}/{userFollowedId}", method = RequestMethod.DELETE)
+    public Result cancelFollowUser(@PathVariable("userId") Long userId, @PathVariable("userFollowedId") Long userFollowedId) {
+        return userService.cancelFollowUser(userId, userFollowedId);
+    }
+
+    @RequestMapping(value = "/existFollower/{userId}/{userFollowedId}", method = RequestMethod.GET)
+    public Result existFollower(@PathVariable("userId") Long userId, @PathVariable("userFollowedId") Long userFollowedId) {
+        return userService.existFollower(userId, userFollowedId);
+    }
+
+    /**
+     * 获取粉丝数量
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/countFollower/{userId}", method = RequestMethod.GET)
+    public Result countFollower(@PathVariable("userId") Long userId) {
+        return userService.countFollower(userId);
+    }
+
+    /**
+     * 获取用户关注用户的数量
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/countUserFollowCount/{userId}", method = RequestMethod.GET)
+    public Result countUserFollowCount(@PathVariable("userId") Long userId) {
+        return userService.countUserFollowCount(userId);
     }
 
     /**
      * 注销登入
+     *
      * @return
      */
     @RequestMapping(value = "/logout", method = RequestMethod.DELETE)
@@ -49,7 +79,6 @@ public class UserController {
 
     @RequestMapping(value = "/findUserByNameKey/{userName}/{pagerIndex}", method = RequestMethod.GET)
     public Result findUserByName(@PathVariable("userName") String userName, @PathVariable("pagerIndex") int pagerIndex) {
-
         return userService.findUserByName(userName, pagerIndex);
     }
 

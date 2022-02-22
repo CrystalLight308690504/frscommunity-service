@@ -14,10 +14,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import priv.crystallightghost.frscommunity.dao.BlogCategoryDao;
+import priv.crystallightghost.frscommunity.dao.BlogCriticismDao;
 import priv.crystallightghost.frscommunity.dao.BlogDao;
 import priv.crystallightghost.frscommunity.dao.SkatingTypeDao;
 import priv.crystallightghost.frscommunity.pojo.blog.Blog;
 import priv.crystallightghost.frscommunity.pojo.blog.BlogCategory;
+import priv.crystallightghost.frscommunity.pojo.blog.BlogCriticism;
 import priv.crystallightghost.frscommunity.pojo.skatingtype.SkatingType;
 import priv.crystallightghost.frscommunity.pojo.system.User;
 import priv.crystallightghost.frscommunity.respond.PagerResult;
@@ -37,6 +39,8 @@ public class BlogService {
     BlogCategoryDao blogCategoryDao;
     @Autowired
     SkatingTypeDao skatingTypeDao;
+    @Autowired
+    BlogCriticismDao blogCriticismDao;
     @Autowired
     FRSCIdWorker idWorker;
     String errorImage = "(ಥ﹏ಥ)";
@@ -189,5 +193,28 @@ public class BlogService {
         user.setUserId(userId);
         long blogCount = blogDao.countBlogsByUser(user);
         return Result.SUCCESS(blogCount);
+    }
+
+    public Result criticiseBlog(BlogCriticism blogCriticism) {
+        blogCriticism.setCriticismId(idWorker.nextId());
+        blogCriticismDao.save(blogCriticism);
+        return Result.SUCCESS();
+    }
+
+    public Result deleteBlogCriticism(BlogCriticism blogCriticism) {
+        Optional<BlogCriticism> criticismDaoById = blogCriticismDao.findById(blogCriticism.getCriticismId());
+        if (criticismDaoById.isEmpty()) {
+            return Result.ERROR("不存在此评论");
+        }else {
+            blogCriticismDao.delete(criticismDaoById.get());
+            return Result.SUCCESS();
+        }
+    }
+
+    public Result findBlogCriticisms(long blogId, int pageIndex) {
+        Sort s = Sort.by("createdTime").descending();
+        Slice<BlogCriticism> criticisms = blogCriticismDao.findBlogCriticismsByBlogId(blogId, PageRequest.of(pageIndex, 10, s));
+        PagerResult pagerResult = new PagerResult(criticisms.getContent(), criticisms.hasNext());
+        return Result.SUCCESS(pagerResult);
     }
 }

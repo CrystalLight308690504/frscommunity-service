@@ -49,7 +49,13 @@ public class Result {
         this.success = success;
     }
 
-    public static Result SUCCESS(){
+    public static Result ERROR(String message){
+
+        Result result = new Result(500, message, false);
+        return result;
+    }
+
+    public static Result SUCCESS() {
 
         Result result = new Result(ResultCode.SUCCESS);
         return result;

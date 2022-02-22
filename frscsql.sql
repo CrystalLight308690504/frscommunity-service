@@ -196,10 +196,9 @@ create table blog
 drop table if exists blog_criticism;
 create table blog_criticism
 (
-    criticism_id           char(10) not null,
+    criticism_id           bigint not null,
     blog_id                bigint   null,
     user_id                bigint   null,
-    answer_to_criticism_id char(10) null,
     content                text     null,
     next_content_id        bigint   null,
     created_time           datetime null,
@@ -237,4 +236,6 @@ create table user_follower
 )ENGINE = InnoDB
  DEFAULT CHARSET = utf8mb4
  COLLATE = utf8mb4_0900_ai_ci;
+
+
 

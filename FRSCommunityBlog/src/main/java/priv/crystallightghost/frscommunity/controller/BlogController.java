@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import priv.crystallightghost.frscommunity.pojo.blog.Blog;
 import priv.crystallightghost.frscommunity.pojo.blog.BlogCategory;
+import priv.crystallightghost.frscommunity.pojo.blog.BlogCriticism;
 import priv.crystallightghost.frscommunity.respond.Result;
 import priv.crystallightghost.frscommunity.service.BlogService;
 import priv.crystallightghost.frscommunity.until.FRSCIdWorker;
@@ -62,10 +63,12 @@ public class BlogController {
     public Result findBlogCategories(@PathVariable("userId") long userId) {
         return blogService.findBlogCategories(userId);
     }
+
     @RequestMapping(value = "/getSkatingType", method = RequestMethod.GET)
     public Result getSkatingType() {
         return blogService.getSkatingType();
     }
+
     @RequestMapping(value = "/addBlogCategory", method = RequestMethod.POST)
     public Result addBlogCategory(@RequestBody BlogCategory blogCategory) {
         return blogService.addBlogCategory(blogCategory);
@@ -85,4 +88,20 @@ public class BlogController {
     public Result countBlogs(@PathVariable("userId") long userId) {
         return blogService.countBlogs(userId);
     }
+
+    @RequestMapping(value = "/criticiseBlog", method = RequestMethod.POST)
+    public Result criticiseBlog(@RequestBody BlogCriticism blogCriticism) {
+        return blogService.criticiseBlog(blogCriticism);
+    }
+
+    @RequestMapping(value = "/deleteBlogCriticism", method = RequestMethod.POST)
+    public Result deleteBlogCriticism(@RequestBody BlogCriticism blogCriticism) {
+        return blogService.deleteBlogCriticism(blogCriticism);
+    }
+
+    @RequestMapping(value = "/findBlogCriticisms/{blogId}/{pageIndex}", method = RequestMethod.POST)
+    public Result findBlogCriticisms(@PathVariable("blogId") long blogId, @PathVariable("pageIndex") int pageIndex) {
+        return blogService.findBlogCriticisms(blogId, pageIndex);
+    }
+
 }

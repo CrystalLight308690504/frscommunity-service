@@ -12,6 +12,7 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/FRSCommunityBlog/pom.xml" />
+        <option value="$PROJECT_DIR$/FRSCommunityEureka/pom.xml" />
       </list>
     </option>
   </component>

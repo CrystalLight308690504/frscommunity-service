@@ -95,7 +95,7 @@ public class ShiroConfiguration {
     public RedisSessionDAO redisSessionDAO() {
         RedisSessionDAO sessionDAO = new RedisSessionDAO();
         sessionDAO.setRedisManager(redisManager());
-        sessionDAO.setExpire(15*24*60*60*1000);
+        sessionDAO.setExpire(30*24*60*60*2);
         return sessionDAO;
     }
 
@@ -104,7 +104,7 @@ public class ShiroConfiguration {
      */
     public DefaultWebSessionManager sessionManager() {
         UserSessionManager sessionManager = new UserSessionManager();
-        sessionManager.setGlobalSessionTimeout(15*24*60*60*1000);
+        sessionManager.setGlobalSessionTimeout(30*24*60*60*1000L);
         sessionManager.setSessionDAO(redisSessionDAO());
         //禁用cookie
         sessionManager.setSessionIdCookieEnabled(false);

@@ -262,9 +262,38 @@ public class UserService {
     }
 
     public Result followUser(UserFollower userFollower) {
+        UserFollower userFollowerData = userFollowerDao.findByUserIdAndUserFollowedId(userFollower.getUserId(), userFollower.getUserFollowedId());
+        if (null != userFollowerData) {
+            return Result.ERROR("已经注");
+        }
         userFollower.setFollowerId(FRSCIdWorker.nextId());
         userFollower.setCreatedTime(new Timestamp(System.currentTimeMillis()));
         userFollowerDao.save(userFollower);
         return Result.SUCCESS();
+    }
+
+    public Result existFollower(Long userId, Long userFollowedId) {
+        boolean exists = userFollowerDao.existsByUserIdAndUserFollowedId(userId, userFollowedId);
+        return Result.SUCCESS(exists);
+    }
+
+    public Result countFollower(Long userId) {
+        long count = userFollowerDao.countByUserFollowedId(userId);
+        return Result.SUCCESS(count);
+    }
+
+    public Result cancelFollowUser(long userId, long userFollowedId) {
+        UserFollower userFollower = userFollowerDao.findByUserIdAndUserFollowedId(userId, userFollowedId);
+        if (null != userFollower) {
+            userFollowerDao.delete(userFollower);
+            return Result.SUCCESS();
+        } else {
+            return Result.ERROR("未关注");
+        }
+    }
+
+    public Result countUserFollowCount(Long userId) {
+        long count = userFollowerDao.countByUserId(userId);
+        return Result.SUCCESS(count);
     }
 }

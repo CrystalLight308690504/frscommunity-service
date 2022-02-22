@@ -13,8 +13,8 @@ spring:
     username: clg
     password: MYSQLzhu19981210.@
     hikari:
-      minimum-idle: 3
-      maximum-pool-size: 5
+      minimum-idle: 5
+      maximum-pool-size: 10
       max-lifetime: 0
   #3.JPA
   jpa:
@@ -26,3 +26,9 @@ spring:
     port: 6379
     password: Rxz129810.@EDIS
 
+  eureka:
+    client:
+      service-url:
+      defaultZone: http://localhost:6868/eureka
+      instance:
+      prefer-ip-address: true
