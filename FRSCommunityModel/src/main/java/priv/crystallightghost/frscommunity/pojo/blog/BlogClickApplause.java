@@ -15,6 +15,9 @@ import java.util.Objects;
 @Table(name = "blog_click_applause", schema = "frscommunity", catalog = "")
 @Data
 public class BlogClickApplause {
+    @Id
+    @Column(name = "click_applause_id")
+    private long clickApplauseId;
     @Basic
     @Column(name = "user_id")
     private Long userId;
@@ -25,9 +28,7 @@ public class BlogClickApplause {
     @Column(name = "created_time")
     private String createdTime;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "click_applause_id")
-    private long clickApplauseId;
+
 
     @Override
     public boolean equals(Object o) {

@@ -23,6 +23,7 @@
             <scope>compile</scope>
             <type>jar</type>
         </dependency>
+
     </dependencies>
     <build>
         <plugins>

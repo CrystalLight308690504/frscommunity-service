@@ -158,12 +158,12 @@ create table skating_type
 drop table if exists blog_category;
 create table blog_category
 (
-    category_id   bigint   not null,
-    parent_id     bigint   null,
-    user_id       bigint   null,
-    category_name char(50) null,
-    description char(100) null,
-    created_time  datetime null,
+    category_id   bigint    not null,
+    parent_id     bigint    null,
+    user_id       bigint    null,
+    category_name char(50)  null,
+    description   char(100) null,
+    created_time  datetime  null,
 
     constraint PK_SELF_CATEGORY primary key (category_id)
 ) ENGINE = InnoDB
@@ -196,12 +196,12 @@ create table blog
 drop table if exists blog_criticism;
 create table blog_criticism
 (
-    criticism_id           bigint not null,
-    blog_id                bigint   null,
-    user_id                bigint   null,
-    content                text     null,
-    next_content_id        bigint   null,
-    created_time           datetime null,
+    criticism_id    bigint   not null,
+    blog_id         bigint   null,
+    user_id         bigint   null,
+    content         text     null,
+    next_content_id bigint   null,
+    created_time    datetime null,
     constraint PK_BLOG_CRITICISM primary key (criticism_id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -212,10 +212,10 @@ create table blog_criticism
 drop table if exists blog_click_applause;
 create table blog_click_applause
 (
+    click_applause_id bigint not null,
     user_id           bigint null,
     blog_id           bigint null,
     created_time      text   null,
-    click_applause_id bigint not null,
     constraint PK_BLOG_CLICK_APPLAUSE primary key (click_applause_id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -228,14 +228,27 @@ drop table if exists user_follower;
 /*==============================================================*/
 create table user_follower
 (
-    follower_id            bigint not null,
-    user_id              bigint comment '关注的用户id',
-    user_followed_id     bigint comment '被关注的用户id',
-    created_time         datetime comment '创建事件',
+    follower_id      bigint not null,
+    user_id          bigint comment '关注的用户id',
+    user_followed_id bigint comment '被关注的用户id',
+    created_time     datetime comment '创建事件',
     primary key (follower_id)
-)ENGINE = InnoDB
- DEFAULT CHARSET = utf8mb4
- COLLATE = utf8mb4_0900_ai_ci;
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
+
+drop table if exists blog_collection;
+/*==============================================================*/
+/* Table: blog_collection                                       */
+/*==============================================================*/
+create table blog_collection
+(
+    collection_id bigint   not null,
+    user_id       bigint   null,
+    blog_id       bigint   null,
+    created_time  datetime null,
+    constraint PK_BLOG_COLLECTION primary key (collection_id)
+)
 
 
 

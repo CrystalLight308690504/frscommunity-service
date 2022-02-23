@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import priv.crystallightghost.frscommunity.pojo.blog.Blog;
 import priv.crystallightghost.frscommunity.pojo.blog.BlogCategory;
+import priv.crystallightghost.frscommunity.pojo.blog.BlogCollection;
 import priv.crystallightghost.frscommunity.pojo.blog.BlogCriticism;
 import priv.crystallightghost.frscommunity.respond.Result;
 import priv.crystallightghost.frscommunity.service.BlogService;
@@ -23,6 +24,20 @@ public class BlogController {
     BlogService blogService;
     @Autowired
     FRSCIdWorker idWorker;
+
+    @RequestMapping(value = "/collectionBlog", method = RequestMethod.POST)
+    public Result collectionBlog(@RequestBody BlogCollection blogCollection) {
+        return blogService.collectionBlog(blogCollection);
+    }
+    @RequestMapping(value = "/cancelCollectionBlog", method = RequestMethod.DELETE)
+    public Result cancelCollectionBlog(@RequestBody BlogCollection blogCollection) {
+        return blogService.cancelCollectionBlog(blogCollection);
+    }
+
+    @RequestMapping(value = "/isCollectionBlog", method = RequestMethod.DELETE)
+    public Result isCollectionBlog(@RequestBody BlogCollection blogCollection) {
+        return blogService.isCollectionBlog(blogCollection);
+    }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public Result deleteBlog(@RequestBody Blog blog) {

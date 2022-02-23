@@ -71,7 +71,4 @@ public class Result {
         return new Result(ResultCode.SERVER_ERROR);
     }
 
-    public static Result FAIL(){
-        return new Result(ResultCode.FAIL);
-    }
 }

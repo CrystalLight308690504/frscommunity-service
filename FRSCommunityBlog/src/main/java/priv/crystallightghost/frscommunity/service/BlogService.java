@@ -13,12 +13,10 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import priv.crystallightghost.frscommunity.dao.BlogCategoryDao;
-import priv.crystallightghost.frscommunity.dao.BlogCriticismDao;
-import priv.crystallightghost.frscommunity.dao.BlogDao;
-import priv.crystallightghost.frscommunity.dao.SkatingTypeDao;
+import priv.crystallightghost.frscommunity.dao.*;
 import priv.crystallightghost.frscommunity.pojo.blog.Blog;
 import priv.crystallightghost.frscommunity.pojo.blog.BlogCategory;
+import priv.crystallightghost.frscommunity.pojo.blog.BlogCollection;
 import priv.crystallightghost.frscommunity.pojo.blog.BlogCriticism;
 import priv.crystallightghost.frscommunity.pojo.skatingtype.SkatingType;
 import priv.crystallightghost.frscommunity.pojo.system.User;
@@ -41,6 +39,8 @@ public class BlogService {
     SkatingTypeDao skatingTypeDao;
     @Autowired
     BlogCriticismDao blogCriticismDao;
+    @Autowired
+    BlogCollectionDao blogCollectionDao;
     @Autowired
     FRSCIdWorker idWorker;
     String errorImage = "(ಥ﹏ಥ)";
@@ -216,5 +216,35 @@ public class BlogService {
         Slice<BlogCriticism> criticisms = blogCriticismDao.findBlogCriticismsByBlogId(blogId, PageRequest.of(pageIndex, 10, s));
         PagerResult pagerResult = new PagerResult(criticisms.getContent(), criticisms.hasNext());
         return Result.SUCCESS(pagerResult);
+    }
+
+    public Result collectionBlog(BlogCollection blogCollection) {
+        BlogCollection blogCollectionData = blogCollectionDao.findByUserIdAndBlogId(blogCollection.getUserId(), blogCollection.getBlogId());
+        if (null != blogCollectionData) {
+            return Result.ERROR("已经收藏");
+        }
+        blogCollection.setCollectionId(idWorker.nextId());
+        blogCollection.setCreatedTime(new Timestamp(System.currentTimeMillis()));
+        blogCollectionDao.save(blogCollection);
+        return Result.SUCCESS();
+    }
+
+    public Result cancelCollectionBlog(BlogCollection blogCollection) {
+        BlogCollection blogCollectionData = blogCollectionDao.findByUserIdAndBlogId(blogCollection.getUserId(), blogCollection.getBlogId());
+        if (null == blogCollectionData) {
+            return Result.ERROR("未收藏此博客");
+        }else {
+            blogCollectionDao.delete(blogCollectionData);
+            return Result.SUCCESS();
+        }
+    }
+
+    public Result isCollectionBlog(BlogCollection blogCollection) {
+        BlogCollection blogCollectionData = blogCollectionDao.findByUserIdAndBlogId(blogCollection.getUserId(), blogCollection.getBlogId());
+        if (null == blogCollectionData) {
+            return Result.SUCCESS(false);
+        }else {
+            return Result.SUCCESS(true);
+        }
     }
 }
