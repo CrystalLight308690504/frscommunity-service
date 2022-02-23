@@ -215,7 +215,7 @@ create table blog_click_applause
     click_applause_id bigint not null,
     user_id           bigint null,
     blog_id           bigint null,
-    created_time      text   null,
+    created_time      datetime   null,
     constraint PK_BLOG_CLICK_APPLAUSE primary key (click_applause_id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4

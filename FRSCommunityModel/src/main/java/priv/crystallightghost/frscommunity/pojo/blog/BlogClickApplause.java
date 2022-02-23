@@ -3,6 +3,7 @@ package priv.crystallightghost.frscommunity.pojo.blog;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
@@ -26,9 +27,7 @@ public class BlogClickApplause {
     private Long blogId;
     @Basic
     @Column(name = "created_time")
-    private String createdTime;
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-
+    private Timestamp createdTime;
 
     @Override
     public boolean equals(Object o) {

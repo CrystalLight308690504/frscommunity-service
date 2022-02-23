@@ -14,10 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import priv.crystallightghost.frscommunity.dao.*;
-import priv.crystallightghost.frscommunity.pojo.blog.Blog;
-import priv.crystallightghost.frscommunity.pojo.blog.BlogCategory;
-import priv.crystallightghost.frscommunity.pojo.blog.BlogCollection;
-import priv.crystallightghost.frscommunity.pojo.blog.BlogCriticism;
+import priv.crystallightghost.frscommunity.pojo.blog.*;
 import priv.crystallightghost.frscommunity.pojo.skatingtype.SkatingType;
 import priv.crystallightghost.frscommunity.pojo.system.User;
 import priv.crystallightghost.frscommunity.respond.PagerResult;
@@ -41,6 +38,8 @@ public class BlogService {
     BlogCriticismDao blogCriticismDao;
     @Autowired
     BlogCollectionDao blogCollectionDao;
+    @Autowired
+    BlogClickApplauseDao blogClickApplauseDao;
     @Autowired
     FRSCIdWorker idWorker;
     String errorImage = "(ಥ﹏ಥ)";
@@ -239,9 +238,40 @@ public class BlogService {
         }
     }
 
-    public Result isCollectionBlog(BlogCollection blogCollection) {
-        BlogCollection blogCollectionData = blogCollectionDao.findByUserIdAndBlogId(blogCollection.getUserId(), blogCollection.getBlogId());
+    public Result isCollectionBlog(long userId, long blogId) {
+        BlogCollection blogCollectionData = blogCollectionDao.findByUserIdAndBlogId(userId,blogId);
         if (null == blogCollectionData) {
+            return Result.SUCCESS(false);
+        }else {
+            return Result.SUCCESS(true);
+        }
+    }
+
+    public Result clickApplauseBlog(BlogClickApplause blogClickApplause) {
+        BlogClickApplause blogClickApplauseData = blogClickApplauseDao.findByUserIdAndBlogId(blogClickApplause.getUserId(), blogClickApplause.getBlogId());
+        if (null == blogClickApplauseData) {
+            blogClickApplause.setClickApplauseId(idWorker.nextId());
+            blogClickApplause.setCreatedTime(new Timestamp(System.currentTimeMillis()));
+            blogClickApplauseDao.save(blogClickApplause);
+            return Result.SUCCESS();
+        }else {
+            return Result.ERROR("已经点赞了");
+        }
+    }
+
+    public Result cancelApplauseBlog(BlogClickApplause blogClickApplause) {
+        BlogClickApplause blogClickApplauseData = blogClickApplauseDao.findByUserIdAndBlogId(blogClickApplause.getUserId(), blogClickApplause.getBlogId());
+        if (null != blogClickApplauseData) {
+            blogClickApplauseDao.delete(blogClickApplauseData);
+            return Result.SUCCESS();
+        }else {
+            return Result.ERROR("未点赞");
+        }
+    }
+
+    public Result isApplauseBlog(long userId, long blogId) {
+        BlogClickApplause blogClickApplauseData = blogClickApplauseDao.findByUserIdAndBlogId(userId,blogId);
+        if (null == blogClickApplauseData) {
             return Result.SUCCESS(false);
         }else {
             return Result.SUCCESS(true);
