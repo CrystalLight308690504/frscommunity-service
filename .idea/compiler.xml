@@ -20,7 +20,7 @@
       <module name="FRSCommunityBlog" options="-parameters" />
       <module name="FRSCommunityCommon" options="-parameters" />
       <module name="FRSCommunityEureka" options="-parameters" />
-      <module name="FRSCommunityModel" options="-parameters" />
+      <module name="FRSCommunityModel" options="" />
       <module name="FRSCommunityServer" options="" />
       <module name="FRSCommunitySystem" options="-parameters" />
     </option>
