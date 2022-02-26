@@ -21,7 +21,9 @@ public interface BlogDao extends JpaRepository<Blog,Long>, JpaSpecificationExecu
     List<Blog> findBlogsByUser(User user);
     List<Blog> findBlogsBySkatingType(SkatingType skatingType);
     List<Blog> findBlogsByUserAndBlogCategory(User user, BlogCategory category);
+    void deleteByBlogCategory(BlogCategory category);
     Slice<Blog> findBlogsBySkatingType(SkatingType skatingType, Pageable pageable);
     Slice<Blog> findByBlogTitleContainingOrContentContaining(String likePattern, String likePattern2,Pageable pageable);
     long countBlogsByUser(User user);
+    long countBlogsByBlogCategory(BlogCategory blogCategory);
 }

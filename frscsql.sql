@@ -83,7 +83,7 @@ drop table if exists role;
 CREATE TABLE `role`
 (
     `role_id`      bigint NOT NULL,
-    `orle_name`    varchar(20)  DEFAULT NULL COMMENT '角色名',
+    `role_name`    varchar(20)  DEFAULT NULL COMMENT '角色名',
     `description`  varchar(255) DEFAULT NULL COMMENT '描述',
     `created_time` datetime     DEFAULT NULL COMMENT '创建时间',
     `code`         varchar(255) DEFAULT NULL COMMENT '标识码',
@@ -96,7 +96,7 @@ drop table if exists user;
 CREATE TABLE `user`
 (
     `user_id`         bigint NOT NULL COMMENT '用户id',
-    `user_info_id`    bigint         DEFAULT NULL COMMENT '用户id',
+    `user_state_id`   bigint         DEFAULT NULL COMMENT '用户状态id',
     `user_name`       char(32)       DEFAULT NULL COMMENT '用户名，登陆名',
     `email`           char(64)       DEFAULT NULL COMMENT '邮箱',
     `password`        varchar(32)    DEFAULT NULL COMMENT '密码',
@@ -128,13 +128,13 @@ CREATE TABLE `user_role`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
 
-drop table if exists user_status;
-CREATE TABLE `user_status`
+drop table if exists user_state;
+CREATE TABLE `user_state`
 (
-    `user_id`           bigint        DEFAULT NULL COMMENT '用户id',
-    `user_status_id`    bigint        DEFAULT NULL,
-    `status_name`       varbinary(64) DEFAULT NULL,
-    `status_dated_tims` char(10)      DEFAULT NULL
+    `user_status_id`    bigint        primary key ,
+    `status_name`       varchar(64) DEFAULT NULL,
+    `description`       varchar(64) DEFAULT NULL,
+    `constraint_time` long      DEFAULT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
@@ -148,6 +148,7 @@ create table skating_type
     skating_type_id bigint      not null,
     name            varchar(12) null,
     description     varchar(64) null,
+    created_time    DATETIME,
     constraint PK_SKATTING_TYPE primary key (skating_type_id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4

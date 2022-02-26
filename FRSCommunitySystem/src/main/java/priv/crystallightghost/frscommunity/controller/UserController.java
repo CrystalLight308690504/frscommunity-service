@@ -82,6 +82,11 @@ public class UserController {
         return userService.findUserByName(userName, pagerIndex);
     }
 
+    @RequestMapping(value = "/findUserByUserId/{userId}", method = RequestMethod.GET)
+    public Result findUserByUserId(@PathVariable("userId") long userId) {
+        return userService.findUserByUserId(userId);
+    }
+
     /**
      * 用户登录
      * 1.通过service根据mobile查询用户
@@ -168,14 +173,11 @@ public class UserController {
         return userService.verifyEmailExited(email);
     }
 
-    @RequestMapping(value = "/isLogined", method = RequestMethod.GET)
-    public Result isLogined(HttpServletRequest request) {
-        String id = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(id)) {
-            return new Result(ResultCode.USERNOEXITED);
-        }
-        id = id.replaceAll("FRSC", "shiro:session:");
-        return userService.isLogined(id);
+
+    @RequestMapping(value = "/isLogined/{sessionId}", method = RequestMethod.GET)
+    public Result isLogined(@PathVariable("sessionId") String sessionId) {
+        sessionId = sessionId.replaceAll("FRSC", "shiro:session:");
+        return userService.isLogined(sessionId);
     }
 
 

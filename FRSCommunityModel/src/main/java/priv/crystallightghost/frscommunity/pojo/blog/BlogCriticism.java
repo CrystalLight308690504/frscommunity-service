@@ -2,6 +2,7 @@ package priv.crystallightghost.frscommunity.pojo.blog;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import priv.crystallightghost.frscommunity.pojo.system.User;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -23,9 +24,10 @@ public class BlogCriticism {
     @Basic
     @Column(name = "blog_id")
     private Long blogId;
-    @Basic
-    @Column(name = "user_id")
-    private Long userId;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     @Basic
     @Column(name = "content")
     private String content;

@@ -22,6 +22,7 @@ import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 /**
  * @Author CrystalLightGhost
@@ -90,7 +91,7 @@ public class UserService {
 
             // 将用户的sessionId于用户id相影射
             jedis.set(user.getSessionId() + "", user.getUserId() + "");
-            jedis.expire(user.getSessionId() + "", 15 * 24 * 60 * 60 * 1000);
+            jedis.expire(user.getSessionId() + "", 15 * 24 * 60 * 60);
 
             return new Result(ResultCode.SUCCESS, user);
         } catch (Exception e) {
@@ -183,9 +184,9 @@ public class UserService {
     public Result isLogined(String id) {
         String s = jedis.get(id);
         if (!StringUtils.isEmpty(s)) {
-            return Result.SUCCESS();
+            return Result.SUCCESS(true);
         } else {
-            return new Result(ResultCode.USER_LOGIN_EXPIRED);
+            return Result.SUCCESS(false);
         }
     }
 
@@ -296,4 +297,14 @@ public class UserService {
         long count = userFollowerDao.countByUserId(userId);
         return Result.SUCCESS(count);
     }
+
+    public Result findUserByUserId(long userId) {
+        Optional<User> byId = userDao.findById(userId);
+        if(byId.isEmpty()) {
+            return Result.ERROR("不存在此用户");
+        }else {
+            return Result.SUCCESS(byId.get());
+        }
+    }
+
 }

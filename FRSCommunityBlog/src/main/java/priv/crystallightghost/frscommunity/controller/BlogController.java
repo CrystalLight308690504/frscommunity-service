@@ -22,34 +22,43 @@ public class BlogController {
     @Autowired
     FRSCIdWorker idWorker;
 
-    @RequestMapping(value = "/clickApplauseBlog", method = RequestMethod.POST)
-    public Result clickApplauseBlog(@RequestBody BlogClickApplause blogClickApplause) {
-        return blogService.clickApplauseBlog(blogClickApplause);
-    }
-
-    @RequestMapping(value = "/cancelApplauseBlog", method = RequestMethod.DELETE)
-    public Result cancelApplauseBlog(@RequestBody BlogClickApplause blogClickApplause) {
-        return blogService.cancelApplauseBlog(blogClickApplause);
-    }
-     @RequestMapping(value = "/isApplauseBlog/{userId}/{blogId}", method = RequestMethod.GET)
-    public Result isApplauseBlog(@PathVariable("userId") long userId, @PathVariable("blogId") long blogId) {
-        return blogService.isApplauseBlog(userId, blogId);
-    }
-
-
-    @RequestMapping(value = "/collectionBlog", method = RequestMethod.POST)
-    public Result collectionBlog(@RequestBody BlogCollection blogCollection) {
-        return blogService.collectionBlog(blogCollection);
+    @RequestMapping(value = "/addBlogCategory", method = RequestMethod.POST)
+    public Result addBlogCategory(@RequestBody BlogCategory blogCategory) {
+        return blogService.addBlogCategory(blogCategory);
     }
 
     @RequestMapping(value = "/cancelCollectionBlog", method = RequestMethod.DELETE)
     public Result cancelCollectionBlog(@RequestBody BlogCollection blogCollection) {
         return blogService.cancelCollectionBlog(blogCollection);
     }
+    @RequestMapping(value = "/cancelApplauseBlog", method = RequestMethod.DELETE)
+    public Result cancelApplauseBlog(@RequestBody BlogApplause blogApplause) {
+        return blogService.cancelApplauseBlog(blogApplause);
+    }
 
-    @RequestMapping(value = "/isCollectionBlog//{userId}/{blogId}", method = RequestMethod.GET)
-    public Result isCollectionBlog(@PathVariable("userId") long userId, @PathVariable("blogId") long blogId) {
-        return blogService.isCollectionBlog(userId, blogId);
+    @RequestMapping(value = "/applauseBlog", method = RequestMethod.POST)
+    public Result clickApplauseBlog(@RequestBody BlogApplause blogApplause) {
+        return blogService.clickApplauseBlog(blogApplause);
+    }
+
+    @RequestMapping(value = "/countBlogsByCategoryId/{categoryId}", method = RequestMethod.GET)
+    public Result countBlogsByUserId( @PathVariable("categoryId") long categoryId) {
+        return blogService.countBlogsByUserIdAndCategoryId(categoryId);
+    }
+
+    @RequestMapping(value = "/collectionBlog", method = RequestMethod.POST)
+    public Result collectionBlog(@RequestBody BlogCollection blogCollection) {
+        return blogService.collectionBlog(blogCollection);
+    }
+
+    @RequestMapping(value = "/countBlogs/{userId}", method = RequestMethod.GET)
+    public Result countBlogs(@PathVariable("userId") long userId) {
+        return blogService.countBlogs(userId);
+    }
+
+    @RequestMapping(value = "/criticiseBlog", method = RequestMethod.POST)
+    public Result criticiseBlog(@RequestBody BlogCriticism blogCriticism) {
+        return blogService.criticiseBlog(blogCriticism);
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
@@ -57,19 +66,25 @@ public class BlogController {
         return blogService.deleteBlog(blog);
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public Result save(@RequestBody Blog blog) {
-        return blogService.save(blog);
+    @RequestMapping(value = "/deleteBlogCriticism", method = RequestMethod.DELETE)
+    public Result deleteBlogCriticism(@RequestBody BlogCriticism blogCriticism) {
+        return blogService.deleteBlogCriticism(blogCriticism);
     }
 
-    @RequestMapping(value = "/modifyBlog", method = RequestMethod.PUT)
-    public Result modifyBlog(@RequestBody Blog blog) {
-        return blogService.modifyBlog(blog);
+    @RequestMapping(value = "/deleteBlogCategory", method = RequestMethod.PUT)
+    public Result deleteBlogCategory(@RequestBody BlogCategory blogCategory) {
+        return blogService.deleteBlogCategory(blogCategory);
     }
 
-    @RequestMapping(value = "/findBlogsByUserId/{userId}", method = RequestMethod.GET)
-    public Result findBlogsByUserId(@PathVariable("userId") long userId) {
-        return blogService.findBlogsByUserId(userId);
+     @RequestMapping(value = "/isApplauseBlog/{userId}/{blogId}", method = RequestMethod.GET)
+    public Result isApplauseBlog(@PathVariable("userId") long userId, @PathVariable("blogId") long blogId) {
+        return blogService.isApplauseBlog(userId, blogId);
+    }
+
+
+    @RequestMapping(value = "/isCollectionBlog/{userId}/{blogId}", method = RequestMethod.GET)
+    public Result isCollectionBlog(@PathVariable("userId") long userId, @PathVariable("blogId") long blogId) {
+        return blogService.isCollectionBlog(userId, blogId);
     }
 
     @RequestMapping(value = "/findBlogsBySearchKey/{searchKey}/{pagerIndex}", method = RequestMethod.GET)
@@ -92,44 +107,34 @@ public class BlogController {
         return blogService.findBlogCategories(userId);
     }
 
+    @RequestMapping(value = "/findBlogCriticisms/{blogId}/{pageIndex}", method = RequestMethod.GET)
+    public Result findBlogCriticisms(@PathVariable("blogId") long blogId, @PathVariable("pageIndex") int pageIndex) {
+        return blogService.findBlogCriticisms( blogId, pageIndex);
+    }
+
+    @RequestMapping(value = "/findBlogsByUserId/{userId}", method = RequestMethod.GET)
+    public Result findBlogsByUserId(@PathVariable("userId") long userId) {
+        return blogService.findBlogsByUserId(userId);
+    }
+
+    @RequestMapping(value = "/modifyBlog", method = RequestMethod.PUT)
+    public Result modifyBlog(@RequestBody Blog blog) {
+        return blogService.modifyBlog(blog);
+    }
+
     @RequestMapping(value = "/getSkatingType", method = RequestMethod.GET)
     public Result getSkatingType() {
         return blogService.getSkatingType();
     }
 
-    @RequestMapping(value = "/addBlogCategory", method = RequestMethod.POST)
-    public Result addBlogCategory(@RequestBody BlogCategory blogCategory) {
-        return blogService.addBlogCategory(blogCategory);
-    }
-
-    @RequestMapping(value = "/deleteBlogCategory", method = RequestMethod.PUT)
-    public Result deleteBlogCategory(@RequestBody BlogCategory blogCategory) {
-        return blogService.deleteBlogCategory(blogCategory);
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public Result save(@RequestBody Blog blog) {
+        return blogService.save(blog);
     }
 
     @RequestMapping(value = "/modifyBlogCategory", method = RequestMethod.PUT)
     public Result modifyBlogCategory(@RequestBody BlogCategory blogCategory) {
         return blogService.modifyBlogCategory(blogCategory);
-    }
-
-    @RequestMapping(value = "/countBlogs/{userId}", method = RequestMethod.GET)
-    public Result countBlogs(@PathVariable("userId") long userId) {
-        return blogService.countBlogs(userId);
-    }
-
-    @RequestMapping(value = "/criticiseBlog", method = RequestMethod.POST)
-    public Result criticiseBlog(@RequestBody BlogCriticism blogCriticism) {
-        return blogService.criticiseBlog(blogCriticism);
-    }
-
-    @RequestMapping(value = "/deleteBlogCriticism", method = RequestMethod.DELETE)
-    public Result deleteBlogCriticism(@RequestBody BlogCriticism blogCriticism) {
-        return blogService.deleteBlogCriticism(blogCriticism);
-    }
-
-    @RequestMapping(value = "/findBlogCriticisms/{blogId}/{pageIndex}", method = RequestMethod.POST)
-    public Result findBlogCriticisms(@PathVariable("blogId") long blogId, @PathVariable("pageIndex") int pageIndex) {
-        return blogService.findBlogCriticisms(blogId, pageIndex);
     }
 
 }
