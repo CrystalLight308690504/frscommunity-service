@@ -56,6 +56,11 @@ public class BlogController {
         return blogService.countBlogs(userId);
     }
 
+    @RequestMapping(value = "/countBlogApplause/{userId}", method = RequestMethod.GET)
+    public Result countBlogApplause(@PathVariable("userId") long userId) {
+        return blogService.countBlogApplause(userId);
+    }
+
     @RequestMapping(value = "/criticiseBlog", method = RequestMethod.POST)
     public Result criticiseBlog(@RequestBody BlogCriticism blogCriticism) {
         return blogService.criticiseBlog(blogCriticism);
@@ -90,6 +95,11 @@ public class BlogController {
     @RequestMapping(value = "/findBlogsBySearchKey/{searchKey}/{pagerIndex}", method = RequestMethod.GET)
     public Result findBlogsBySearchKey(@PathVariable("searchKey") String searchKey, @PathVariable("pagerIndex") int pagerIndex) {
         return blogService.findBlogBySearchKey(searchKey, pagerIndex);
+    }
+
+    @RequestMapping(value = "/findBlogsCollected/{userId}/{pagerIndex}", method = RequestMethod.GET)
+    public Result findBlogsCollected(@PathVariable("userId") long userId, @PathVariable("pagerIndex") int pagerIndex) {
+        return blogService.findBlogsCollected(userId, pagerIndex);
     }
 
     @RequestMapping(value = "/findBlogsBySkatingTypeId/{skatingTypeId}/{pagerIndex}", method = RequestMethod.GET)

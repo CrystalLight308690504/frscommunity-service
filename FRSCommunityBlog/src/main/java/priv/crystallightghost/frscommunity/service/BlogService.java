@@ -40,7 +40,7 @@ public class BlogService {
     @Autowired
     BlogCollectionDao blogCollectionDao;
     @Autowired
-    BlogClickApplauseDao blogClickApplauseDao;
+    BlogApplauseDao blogApplauseDao;
     @Autowired
     FRSCIdWorker idWorker;
     String errorImage = "(ಥ﹏ಥ)";
@@ -213,7 +213,7 @@ public class BlogService {
     }
 
     public Result collectionBlog(BlogCollection blogCollection) {
-        BlogCollection blogCollectionData = blogCollectionDao.findByUserIdAndBlogId(blogCollection.getUserId(), blogCollection.getBlogId());
+        BlogCollection blogCollectionData = blogCollectionDao.findByUserIdAndBlog(blogCollection.getUserId(), blogCollection.getBlog());
         if (null != blogCollectionData) {
             return Result.ERROR("已经收藏");
         }
@@ -224,7 +224,7 @@ public class BlogService {
     }
 
     public Result cancelCollectionBlog(BlogCollection blogCollection) {
-        BlogCollection blogCollectionData = blogCollectionDao.findByUserIdAndBlogId(blogCollection.getUserId(), blogCollection.getBlogId());
+        BlogCollection blogCollectionData = blogCollectionDao.findByUserIdAndBlog(blogCollection.getUserId(), blogCollection.getBlog());
         if (null == blogCollectionData) {
             return Result.ERROR("未收藏此博客");
         }else {
@@ -234,7 +234,9 @@ public class BlogService {
     }
 
     public Result isCollectionBlog(long userId, long blogId) {
-        BlogCollection blogCollectionData = blogCollectionDao.findByUserIdAndBlogId(userId,blogId);
+        Blog blog = new Blog();
+        blog.setBlogId(blogId);
+        BlogCollection blogCollectionData = blogCollectionDao.findByUserIdAndBlog(userId,blog);
         if (null == blogCollectionData) {
             return Result.SUCCESS(false);
         }else {
@@ -243,11 +245,11 @@ public class BlogService {
     }
 
     public Result clickApplauseBlog(BlogApplause blogApplause) {
-        BlogApplause blogApplauseData = blogClickApplauseDao.findByUserIdAndBlogId(blogApplause.getUserId(), blogApplause.getBlogId());
+        BlogApplause blogApplauseData = blogApplauseDao.findByUserIdAndBlog(blogApplause.getUserId(), blogApplause.getBlog());
         if (null == blogApplauseData) {
             blogApplause.setClickApplauseId(idWorker.nextId());
             blogApplause.setCreatedTime(new Timestamp(System.currentTimeMillis()));
-            blogClickApplauseDao.save(blogApplause);
+            blogApplauseDao.save(blogApplause);
             return Result.SUCCESS();
         }else {
             return Result.ERROR("已经点赞了");
@@ -255,9 +257,9 @@ public class BlogService {
     }
 
     public Result cancelApplauseBlog(BlogApplause blogApplause) {
-        BlogApplause blogApplauseData = blogClickApplauseDao.findByUserIdAndBlogId(blogApplause.getUserId(), blogApplause.getBlogId());
+        BlogApplause blogApplauseData = blogApplauseDao.findByUserIdAndBlog(blogApplause.getUserId(), blogApplause.getBlog());
         if (null != blogApplauseData) {
-            blogClickApplauseDao.delete(blogApplauseData);
+            blogApplauseDao.delete(blogApplauseData);
             return Result.SUCCESS();
         }else {
             return Result.ERROR("未点赞");
@@ -265,7 +267,9 @@ public class BlogService {
     }
 
     public Result isApplauseBlog(long userId, long blogId) {
-        BlogApplause blogApplauseData = blogClickApplauseDao.findByUserIdAndBlogId(userId,blogId);
+        Blog blog = new Blog();
+        blog.setBlogId(blogId);
+        BlogApplause blogApplauseData = blogApplauseDao.findByUserIdAndBlog(userId,blog);
         if (null == blogApplauseData) {
             return Result.SUCCESS(false);
         }else {
@@ -279,5 +283,17 @@ public class BlogService {
         blogCategory.setCategoryId(categoryId);
         long count = blogDao.countBlogsByBlogCategory(blogCategory);
         return Result.SUCCESS(count);
+    }
+
+    public Result countBlogApplause(long userId) {
+        long count = blogApplauseDao.countByUserOfBlogId(userId);
+        return Result.SUCCESS(count);
+    }
+
+    public Result findBlogsCollected(long userId, int pagerIndex) {
+        Sort sort = Sort.by("createdTime").descending();
+        Slice<BlogCollection> blogCollections = blogCollectionDao.findByUserId(userId, PageRequest.of(pagerIndex, 10, sort));
+        PagerResult pagerResult = new PagerResult(blogCollections.getContent(), blogCollections.hasNext());
+        return Result.SUCCESS(pagerResult);
     }
 }

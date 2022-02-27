@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import priv.crystallightghost.frscommunity.dao.UserDao;
 import priv.crystallightghost.frscommunity.dao.UserFollowerDao;
+import priv.crystallightghost.frscommunity.dao.UserFollowerEntityDao;
 import priv.crystallightghost.frscommunity.pojo.system.User;
 import priv.crystallightghost.frscommunity.pojo.system.UserFollower;
+import priv.crystallightghost.frscommunity.pojo.system.UserFollowerEntity;
 import priv.crystallightghost.frscommunity.respond.PagerResult;
 import priv.crystallightghost.frscommunity.respond.Result;
 import priv.crystallightghost.frscommunity.respond.ResultCode;
@@ -38,6 +40,8 @@ public class UserService {
     UserDao userDao;
     @Autowired
     UserFollowerDao userFollowerDao;
+    @Autowired
+    UserFollowerEntityDao userFollowerEntityDao;
     @Autowired
     FRSCIdWorker FRSCIdWorker;
     @Autowired
@@ -307,4 +311,21 @@ public class UserService {
         }
     }
 
+    public Result findUserFollowed(long userId, int pagerIndex) {
+        User user = new User();
+        user.setUserId(userId);
+        Sort sort = Sort.by("createdTime").descending();
+        Slice<UserFollowerEntity> userSlice = userFollowerEntityDao.findByUser(user, PageRequest.of(pagerIndex, 10, sort));
+        PagerResult pagerResult = new PagerResult(userSlice.getContent(), userSlice.hasNext());
+        return Result.SUCCESS(pagerResult);
+    }
+
+    public Result findUserFan(long userId, int pagerIndex) {
+        User user = new User();
+        user.setUserId(userId);
+        Sort sort = Sort.by("createdTime").descending();
+        Slice<UserFollowerEntity> userSlice = userFollowerEntityDao.findByUserFollowed(user, PageRequest.of(pagerIndex, 10, sort));
+        PagerResult pagerResult = new PagerResult(userSlice.getContent(), userSlice.hasNext());
+        return Result.SUCCESS(pagerResult);
+    }
 }

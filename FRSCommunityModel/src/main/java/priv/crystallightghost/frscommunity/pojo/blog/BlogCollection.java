@@ -22,9 +22,10 @@ public class BlogCollection {
     @Basic
     @Column(name = "user_id")
     private Long userId;
-    @Basic
-    @Column(name = "blog_id")
-    private Long blogId;
+
+    @OneToOne
+    @JoinColumn(name = "blog_id")
+    private Blog blog;
     @Basic
     @Column(name = "created_time")
     private Timestamp createdTime;

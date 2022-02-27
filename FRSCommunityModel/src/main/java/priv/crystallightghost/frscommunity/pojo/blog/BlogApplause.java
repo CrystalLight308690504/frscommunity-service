@@ -4,7 +4,6 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Objects;
 
 /**
  * @Date 2022/2/3
@@ -23,22 +22,15 @@ public class BlogApplause {
     @Column(name = "user_id")
     private Long userId;
     @Basic
-    @Column(name = "blog_id")
-    private Long blogId;
+    @Column(name = "user_of_blog_id")
+    private Long userOfBlogId;
+
+    @OneToOne
+    @JoinColumn(name = "blog_id")
+    private Blog blog;
+
     @Basic
     @Column(name = "created_time")
     private Timestamp createdTime;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BlogApplause that = (BlogApplause) o;
-        return clickApplauseId == that.clickApplauseId && Objects.equals(userId, that.userId) && Objects.equals(blogId, that.blogId) && Objects.equals(createdTime, that.createdTime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId, blogId, createdTime, clickApplauseId);
-    }
 }

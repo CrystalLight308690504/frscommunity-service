@@ -215,6 +215,7 @@ create table blog_click_applause
 (
     click_applause_id bigint not null,
     user_id           bigint null,
+    user_of_blog_id  bigint null comment '博主id',
     blog_id           bigint null,
     created_time      datetime   null,
     constraint PK_BLOG_CLICK_APPLAUSE primary key (click_applause_id)

@@ -30,8 +30,8 @@ public class UserController {
     @RequestMapping(value = "/followUser", method = RequestMethod.POST)
     public Result followUser(@RequestBody UserFollower userFollower) {
         return userService.followUser(userFollower);
-
     }
+
     @RequestMapping(value = "/cancelFollowUser/{userId}/{userFollowedId}", method = RequestMethod.DELETE)
     public Result cancelFollowUser(@PathVariable("userId") Long userId, @PathVariable("userFollowedId") Long userFollowedId) {
         return userService.cancelFollowUser(userId, userFollowedId);
@@ -41,6 +41,8 @@ public class UserController {
     public Result existFollower(@PathVariable("userId") Long userId, @PathVariable("userFollowedId") Long userFollowedId) {
         return userService.existFollower(userId, userFollowedId);
     }
+
+
 
     /**
      * 获取粉丝数量
@@ -85,6 +87,16 @@ public class UserController {
     @RequestMapping(value = "/findUserByUserId/{userId}", method = RequestMethod.GET)
     public Result findUserByUserId(@PathVariable("userId") long userId) {
         return userService.findUserByUserId(userId);
+    }
+
+    @RequestMapping(value = "/findUserFollowed/{userId}/{pagerIndex}", method = RequestMethod.GET)
+    public Result findUserFollowed(@PathVariable("userId") long userId, @PathVariable("pagerIndex") int pagerIndex) {
+        return userService.findUserFollowed(userId, pagerIndex);
+    }
+
+    @RequestMapping(value = "/findUserFan/{userId}/{pagerIndex}", method = RequestMethod.GET)
+    public Result findUserFan(@PathVariable("userId") long userId, @PathVariable("pagerIndex") int pagerIndex) {
+        return userService.findUserFan(userId, pagerIndex);
     }
 
     /**
