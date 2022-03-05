@@ -146,10 +146,8 @@ public class BlogService {
     }
 
     public Result findBlogsBySkatingTypeId(long skatingTypeId, int pagerIndex) {
-        SkatingType skatingType = new SkatingType();
-        skatingType.setSkatingTypeId(skatingTypeId);
         Sort sort = Sort.by("createdTime").descending();
-        Slice<Blog> slice = blogDao.findBlogsBySkatingType(skatingType, PageRequest.of(pagerIndex, 10, sort));
+        Slice<Blog> slice = blogDao.findBlogsBySkatingTypeSkatingTypeId(skatingTypeId, PageRequest.of(pagerIndex, 10, sort));
         PagerResult pagerResult = new PagerResult(slice.getContent(), slice.hasNext());
         return Result.SUCCESS(pagerResult);
     }

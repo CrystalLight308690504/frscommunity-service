@@ -21,7 +21,7 @@ public class Blog {
     @Id
     @Column(name = "blog_id")
     private long blogId;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "skating_type_id")
     private SkatingType skatingType;
 
