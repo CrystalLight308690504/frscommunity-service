@@ -304,4 +304,21 @@ public class BlogService {
         PagerResult pagerResult = new PagerResult(blogPage.getContent(), blogPage.hasNext());
         return Result.SUCCESS(pagerResult);
     }
+
+    public Result changBlogIsShowed(long blogId, boolean isShowed) {
+        Optional<Blog> blogOptional = blogDao.findById(blogId);
+        if (blogOptional.isPresent()) {
+            Blog blog = blogOptional.get();
+            if (isShowed) {
+                blog.setIsShowed(1);
+            }else {
+                blog.setIsShowed(0);
+            }
+            blogDao.save(blog);
+            return Result.SUCCESS();
+        }else  {
+            return Result.ERROR("不存在");
+
+        }
+    }
 }

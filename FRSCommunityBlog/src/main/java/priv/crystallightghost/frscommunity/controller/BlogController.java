@@ -1,5 +1,7 @@
 package priv.crystallightghost.frscommunity.controller;
 
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import priv.crystallightghost.frscommunity.pojo.blog.*;
@@ -44,6 +46,12 @@ public class BlogController {
     @RequestMapping(value = "/countBlogsByCategoryId/{categoryId}", method = RequestMethod.GET)
     public Result countBlogsByUserId( @PathVariable("categoryId") long categoryId) {
         return blogService.countBlogsByUserIdAndCategoryId(categoryId);
+    }
+
+    @RequiresRoles(value = {"superAdm","blogAdm"},logical = Logical.OR)
+    @RequestMapping(value = "/changBlogIsShowed/{blogId}/{isShowed}", method = RequestMethod.POST)
+    public Result changBlogIsShowed(@PathVariable("blogId") long blogId, @PathVariable("isShowed") boolean isShowed) {
+        return blogService.changBlogIsShowed(blogId, isShowed);
     }
 
     @RequestMapping(value = "/collectionBlog", method = RequestMethod.POST)
