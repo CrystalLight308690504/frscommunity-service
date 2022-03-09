@@ -97,6 +97,11 @@ public class BlogController {
         return blogService.findBlogBySearchKey(searchKey, pagerIndex);
     }
 
+    @RequestMapping(value = "/findBlogs/{pagerIndex}", method = RequestMethod.GET)
+    public Result findBlogs( @PathVariable("pagerIndex") int pagerIndex) {
+        return blogService.findBlogs(pagerIndex);
+    }
+
     @RequestMapping(value = "/findBlogsCollected/{userId}/{pagerIndex}", method = RequestMethod.GET)
     public Result findBlogsCollected(@PathVariable("userId") long userId, @PathVariable("pagerIndex") int pagerIndex) {
         return blogService.findBlogsCollected(userId, pagerIndex);

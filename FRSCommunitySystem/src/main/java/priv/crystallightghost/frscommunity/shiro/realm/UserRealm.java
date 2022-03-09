@@ -42,7 +42,5 @@ public class UserRealm extends BaseRealm {
         //构造方法：安全数据，密码，realm域名
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(result, user.getPassword(), this.getName());
         return info;
-
-
     }
 }

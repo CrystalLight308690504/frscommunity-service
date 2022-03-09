@@ -8,6 +8,7 @@ package priv.crystallightghost.frscommunity.service;
  */
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
@@ -294,6 +295,13 @@ public class BlogService {
         Sort sort = Sort.by("createdTime").descending();
         Slice<BlogCollection> blogCollections = blogCollectionDao.findByUserId(userId, PageRequest.of(pagerIndex, 10, sort));
         PagerResult pagerResult = new PagerResult(blogCollections.getContent(), blogCollections.hasNext());
+        return Result.SUCCESS(pagerResult);
+    }
+
+    public Result findBlogs(int pagerIndex) {
+        Sort sort = Sort.by("createdTime").descending();
+        Page<Blog> blogPage = blogDao.findAll(PageRequest.of(pagerIndex, 10, sort));
+        PagerResult pagerResult = new PagerResult(blogPage.getContent(), blogPage.hasNext());
         return Result.SUCCESS(pagerResult);
     }
 }
