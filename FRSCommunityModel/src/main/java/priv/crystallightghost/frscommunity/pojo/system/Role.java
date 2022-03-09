@@ -1,11 +1,10 @@
 package priv.crystallightghost.frscommunity.pojo.system;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Objects;
-import java.util.Set;
 
 /**
  * @Date 2022/1/10
@@ -17,13 +16,13 @@ import java.util.Set;
 @Data
 @Table(name = "role")
 public class Role {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Id
     @Column(name = "role_id")
     private long roleId;
     @Basic
     @Column(name = "orle_name")
-    private String orleName;
+    private String roleName;
     @Basic
     @Column(name = "code")
     private String code;
@@ -31,23 +30,9 @@ public class Role {
     @Column(name = "description")
     private String description;
     @Basic
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     @Column(name = "created_time")
     private Timestamp createdTime;
 
-    @ManyToMany
-    @JoinTable (name = "role_permission", joinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "permission_id", referencedColumnName = "permission_id")})
-    Set<Permission> permissions;
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Role role = (Role) o;
-        return roleId == role.roleId && Objects.equals(orleName, role.orleName) && Objects.equals(description, role.description) && Objects.equals(createdTime, role.createdTime);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(roleId, orleName, description, createdTime);
-    }
 }

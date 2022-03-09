@@ -4,14 +4,17 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import priv.crystallightghost.frscommunity.dao.RoleDao;
 import priv.crystallightghost.frscommunity.dao.UserDao;
 import priv.crystallightghost.frscommunity.dao.UserFollowerDao;
 import priv.crystallightghost.frscommunity.dao.UserFollowerEntityDao;
+import priv.crystallightghost.frscommunity.pojo.system.Role;
 import priv.crystallightghost.frscommunity.pojo.system.User;
 import priv.crystallightghost.frscommunity.pojo.system.UserFollower;
 import priv.crystallightghost.frscommunity.pojo.system.UserFollowerEntity;
@@ -42,6 +45,8 @@ public class UserService {
     UserFollowerDao userFollowerDao;
     @Autowired
     UserFollowerEntityDao userFollowerEntityDao;
+    @Autowired
+    RoleDao roleDao;
     @Autowired
     FRSCIdWorker FRSCIdWorker;
     @Autowired
@@ -148,6 +153,9 @@ public class UserService {
         String password = user.getPassword();
         password = FRSCPasswordMd5Util.getPasswordCoded(password);
         user.setPassword(password);
+        Role role = new Role();
+        role.setRoleId(1L);
+        user.setRole(role);
         userDao.save(user);
 
         return new Result(ResultCode.SUCCESS);
@@ -327,5 +335,30 @@ public class UserService {
         Slice<UserFollowerEntity> userSlice = userFollowerEntityDao.findByUserFollowed(user, PageRequest.of(pagerIndex, 10, sort));
         PagerResult pagerResult = new PagerResult(userSlice.getContent(), userSlice.hasNext());
         return Result.SUCCESS(pagerResult);
+    }
+
+    public Result findAllUser(int pagerIndex) {
+        Sort sort = Sort.by("createdTime").descending();
+        Page<User> users = userDao.findAll(PageRequest.of(pagerIndex, 10, sort));
+        PagerResult pagerResult = new PagerResult(users.getContent(), users.hasNext());
+        return Result.SUCCESS(pagerResult);
+    }
+
+    public Result changUserRole(Long userId, Long roleId) {
+        Optional<User> userOptional = userDao.findById(userId);
+        if (userOptional.isPresent()) {
+            Optional<Role> byId = roleDao.findById(roleId);
+            if (byId.isPresent()){
+                User user = userOptional.get();
+                user.setRole(byId.get());
+                userDao.save(user);
+                return Result.SUCCESS();
+            }else {
+                return Result.ERROR("不存在此角色");
+            }
+        }else {
+            return Result.ERROR("不存在此用户");
+        }
+
     }
 }

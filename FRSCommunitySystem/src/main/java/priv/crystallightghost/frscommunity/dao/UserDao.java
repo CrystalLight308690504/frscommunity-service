@@ -16,7 +16,6 @@ import priv.crystallightghost.frscommunity.pojo.system.User;
  */
 public interface UserDao extends JpaRepository<User,Long>, JpaSpecificationExecutor<User> {
 
-
     User findUserByPhoneNumber(String phoneNumber);
     User findUserByUserName(String userName);
     Slice<User> findUsersByUserNameIsContaining(String likePattern, Pageable pageable);

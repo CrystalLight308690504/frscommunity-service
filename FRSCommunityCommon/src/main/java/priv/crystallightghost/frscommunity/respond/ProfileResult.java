@@ -3,15 +3,11 @@ package priv.crystallightghost.frscommunity.respond;
 import lombok.Getter;
 import lombok.Setter;
 import org.crazycake.shiro.AuthCachePrincipal;
-import priv.crystallightghost.frscommunity.pojo.system.Permission;
-import priv.crystallightghost.frscommunity.pojo.system.Role;
 import priv.crystallightghost.frscommunity.pojo.system.User;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 @Setter
 @Getter
@@ -26,12 +22,9 @@ public class ProfileResult implements Serializable, AuthCachePrincipal {
         this.mobile = user.getPhoneNumber();
         this.username = user.getUserName();
         this.userId = user.getEmail();
-        Set<Role> roles = user.getRoles();
-        Set<String> menus = new HashSet<>();
-        Set<String> points = new HashSet<>();
-        Set<String> apis = new HashSet<>();
-        Set<String> role1 = new HashSet<>();
-        for (Role role : roles) {
+
+        permission.put("role", user.getRole().getCode());
+       /* for (Role role : roles) {
             role1.add(role.getCode());
             Set<Permission> perms = role.getPermissions();
             for (Permission perm : perms) {
@@ -44,12 +37,8 @@ public class ProfileResult implements Serializable, AuthCachePrincipal {
                     apis.add(code);
                 }
             }
-        }
+        }*/
 
-        this.permission.put("menus",menus);
-        this.permission.put("points",points);
-        this.permission.put("apis",apis);
-        this.permission.put("roles",role1);
     }
 
     @Override

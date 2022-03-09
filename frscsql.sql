@@ -111,6 +111,7 @@ CREATE TABLE `user`
     `profession`      varchar(255)   DEFAULT NULL COMMENT '职业',
     `description`     varbinary(255) DEFAULT NULL COMMENT '用户自我描述',
     `address_ip`      varchar(255)   DEFAULT NULL COMMENT '上次登陆ip地址',
+    'role_id' bigint DEFAULT 1 ,
     PRIMARY KEY (`user_id`),
     index `Index_phone` (`phone_number`),
     index `Index_email` (`email`),
@@ -187,6 +188,7 @@ create table blog
     next_content_id bigint       null,
     right_id        bigint       null,
     created_time    datetime     null,
+    is_showed    int default  1   null,
     constraint PK_BLOG primary key (blog_id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4

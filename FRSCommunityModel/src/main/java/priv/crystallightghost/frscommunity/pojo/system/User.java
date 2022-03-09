@@ -1,7 +1,6 @@
 package priv.crystallightghost.frscommunity.pojo.system;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,9 +8,6 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
 
 /**
  * @Date 2022/1/10
@@ -85,6 +81,10 @@ public class User implements Serializable {
     @Column(name = "address_ip")
     private String addressIp;
 
+    @OneToOne
+    @JoinColumn(name = "role_id")
+    Role role;
+
     @Override
     public String toString() {
         return "User{" +
@@ -95,28 +95,5 @@ public class User implements Serializable {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return userId == user.userId && Objects.equals(sessionId, user.sessionId) && Objects.equals(oldPassword, user.oldPassword) && Objects.equals(userName, user.userName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(profile, user.profile) && Objects.equals(introduce, user.introduce) && Objects.equals(credit, user.credit) && Objects.equals(gender, user.gender) && Objects.equals(createdTime, user.createdTime) && Objects.equals(lastLoginTime, user.lastLoginTime) && Objects.equals(loginTime, user.loginTime) && Objects.equals(profession, user.profession) && Objects.equals(description, user.description) && Objects.equals(addressIp, user.addressIp) && Objects.equals(roles, user.roles);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId, sessionId, oldPassword, userName, email, password, phoneNumber, profile, introduce, credit, gender, createdTime, lastLoginTime, loginTime, profession, description, addressIp, roles);
-    }
-
-    /**
-     * JsonIgnore
-     * : 忽略json转化
-     */
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_id")})
-    private Set<Role> roles = new HashSet<Role>();//用户与角色   多对多
 
 }

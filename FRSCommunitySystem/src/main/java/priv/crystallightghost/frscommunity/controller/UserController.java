@@ -1,6 +1,8 @@
 package priv.crystallightghost.frscommunity.controller;
 
 
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +25,6 @@ import java.util.Map;
 @CrossOrigin
 @RequestMapping("/user")
 public class UserController {
-
     @Autowired
     UserService userService;
 
@@ -41,8 +42,6 @@ public class UserController {
     public Result existFollower(@PathVariable("userId") Long userId, @PathVariable("userFollowedId") Long userFollowedId) {
         return userService.existFollower(userId, userFollowedId);
     }
-
-
 
     /**
      * 获取粉丝数量
@@ -62,6 +61,16 @@ public class UserController {
     @RequestMapping(value = "/countUserFollowCount/{userId}", method = RequestMethod.GET)
     public Result countUserFollowCount(@PathVariable("userId") Long userId) {
         return userService.countUserFollowCount(userId);
+    }
+ /**
+     * 获取用户关注用户的数量
+     * @param userId
+     * @return
+     */
+ @RequiresRoles(value = {"superAdm","userAdm"},logical = Logical.OR)
+ @RequestMapping(value = "/changUserRole/{userId}/{roleId}", method = RequestMethod.POST)
+    public Result changUserRole(@PathVariable("userId") Long userId, @PathVariable("roleId") Long roleId) {
+        return userService.changUserRole(userId, roleId);
     }
 
     /**
@@ -84,6 +93,12 @@ public class UserController {
         return userService.findUserByName(userName, pagerIndex);
     }
 
+    @RequiresRoles(value = {"superAdm","userAdm"},logical = Logical.OR)
+    @RequestMapping(value = "/findAllUser/{pagerIndex}", method = RequestMethod.GET)
+    public Result findAllUser( @PathVariable("pagerIndex") int pagerIndex) {
+        return userService.findAllUser(pagerIndex);
+    }
+
     @RequestMapping(value = "/findUserByUserId/{userId}", method = RequestMethod.GET)
     public Result findUserByUserId(@PathVariable("userId") long userId) {
         return userService.findUserByUserId(userId);
@@ -101,9 +116,6 @@ public class UserController {
 
     /**
      * 用户登录
-     * 1.通过service根据mobile查询用户
-     * 2.比较password
-     * 3.生成jwt信息
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Result login(@RequestBody Map<String, String> loginMap) {
@@ -112,7 +124,7 @@ public class UserController {
         System.out.println("login...........");
         String userName = loginMap.get("userName");
         String phoneNumber = loginMap.get("phoneNumber");
-        if (!StringUtils.isEmpty(userName)) { // 用户名登陆
+        if (!StringUtils.isEmpty(userName)) {
             loginIdenty = userName;
         } else if (!StringUtils.isEmpty(phoneNumber)) { // 手机号登陆
             loginIdenty = phoneNumber;
@@ -163,13 +175,9 @@ public class UserController {
 
     /**
      * 用户注册
-     * 1.通过service根据mobile查询用户
-     * 2.比较password
-     * 3.生成jwt信息
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public Result register(@RequestBody User user) {
-
         return userService.registerUser(user);
     }
 
@@ -184,13 +192,9 @@ public class UserController {
         System.out.printf(email);
         return userService.verifyEmailExited(email);
     }
-
-
     @RequestMapping(value = "/isLogined/{sessionId}", method = RequestMethod.GET)
     public Result isLogined(@PathVariable("sessionId") String sessionId) {
         sessionId = sessionId.replaceAll("FRSC", "shiro:session:");
         return userService.isLogined(sessionId);
     }
-
-
 }

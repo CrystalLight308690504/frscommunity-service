@@ -15,7 +15,7 @@ import java.util.Objects;
 @Data
 @Table(name = "skating_type", schema = "frscommunity", catalog = "")
 public class SkatingType {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Id
     @Column(name = "skating_type_id")
     private long skatingTypeId;

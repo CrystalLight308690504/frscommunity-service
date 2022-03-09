@@ -141,13 +141,15 @@ public class BlogService {
         user.setUserId(userId);
         BlogCategory blogCategory = new BlogCategory();
         blogCategory.setCategoryId(categoryId);
-        List<Blog> blogs = blogDao.findBlogsByUserAndBlogCategory(user, blogCategory);
+        Sort sort = Sort.by("createdTime").descending();
+
+        List<Blog> blogs = blogDao.findBlogsByUserAndBlogCategory(user, blogCategory, sort);
         return new Result(ResultCode.SUCCESS, blogs);
     }
 
     public Result findBlogsBySkatingTypeId(long skatingTypeId, int pagerIndex) {
         Sort sort = Sort.by("createdTime").descending();
-        Slice<Blog> slice = blogDao.findBlogsBySkatingTypeSkatingTypeId(skatingTypeId, PageRequest.of(pagerIndex, 10, sort));
+        Slice<Blog> slice = blogDao.findBlogsBySkatingTypeSkatingTypeIdAndIsShowed(skatingTypeId,1, PageRequest.of(pagerIndex, 10, sort));
         PagerResult pagerResult = new PagerResult(slice.getContent(), slice.hasNext());
         return Result.SUCCESS(pagerResult);
     }
