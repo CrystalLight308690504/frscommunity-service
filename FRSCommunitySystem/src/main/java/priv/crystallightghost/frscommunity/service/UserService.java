@@ -62,19 +62,6 @@ public class UserService {
         return userDao.findUserByPhoneNumber(userName);
     }
 
-    public String getUserIdByAuthorization() {
-        String id = request.getHeader("Authorization");
-        if (StringUtils.isEmpty(id)) {
-            return null;
-        }
-        String userId = jedis.get(id);
-        if (StringUtils.isEmpty(userId)) {
-            return null;
-        } else {
-            return userId;
-        }
-    }
-
     public Result login(String loginIdentity, String password) {
         try {
             //1.构造登录令牌 UsernamePasswordToken
@@ -94,6 +81,8 @@ public class UserService {
             if (StringUtils.isEmpty(user)) {// 手机号登陆
                 user = findUserByPhoneNum(loginIdentity);
             }
+
+            // 在数据库记录当前sessionid和登录时间
             user.setSessionId(sessionId);
             user.setLoginTime(new Timestamp(System.currentTimeMillis()));
             userDao.save(user);
