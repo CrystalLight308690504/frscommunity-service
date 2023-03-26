@@ -12,6 +12,7 @@
         <module>FRSCommunityModel</module>
         <module>FRSCommunitySystem</module>
         <module>FRSCommunityEureka</module>
+        <module>FRSCommunityHystrixDashboard</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

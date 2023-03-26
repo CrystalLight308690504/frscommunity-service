@@ -33,3 +33,18 @@ eureka:
       defaultZone: http://localhost:7001/eureka
   instance:
     prefer-ip-address: true
+
+feign:
+  hystrix:
+    enabled: true #开启客户端 hystrix
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"   # * 在yaml 文件属于关键字，所以需要加引号
+info:
+  app.name: micro-service-cloud-provider-dept-hystrix
+  company.name: c.biancheng.net
+  build.aetifactId: @project.artifactId@
+  build.version: @project.version@

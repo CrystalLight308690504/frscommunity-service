@@ -7,7 +7,18 @@ eureka:
     service-url:
       defaultZone: http://localhost:7001/eureka
   instance:
+    instance-id: FRS-System
     prefer-ip-address: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"   # * 在yaml 文件属于关键字，所以需要加引号
+info:
+  app.name: micro-service-cloud-provider-dept-hystrix
+  company.name: c.biancheng.net
+  build.aetifactId: @project.artifactId@
+  build.version: @project.version@
 #spring配置
 spring:
   #1.应用配置
