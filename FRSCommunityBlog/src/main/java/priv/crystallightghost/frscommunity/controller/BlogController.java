@@ -1,9 +1,11 @@
 package priv.crystallightghost.frscommunity.controller;
 
+import feign.Feign;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import priv.crystallightghost.frscommunity.feignIo.FeignSystemClient;
 import priv.crystallightghost.frscommunity.pojo.blog.*;
 import priv.crystallightghost.frscommunity.respond.Result;
 import priv.crystallightghost.frscommunity.service.BlogService;
@@ -23,6 +25,8 @@ public class BlogController {
     BlogService blogService;
     @Autowired
     FRSCIdWorker idWorker;
+    @Autowired
+    FeignSystemClient feignSystemClient;
 
     @RequestMapping(value = "/addBlogCategory", method = RequestMethod.POST)
     public Result addBlogCategory(@RequestBody BlogCategory blogCategory) {

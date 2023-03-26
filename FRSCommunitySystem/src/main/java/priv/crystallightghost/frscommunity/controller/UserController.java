@@ -195,6 +195,7 @@ public class UserController {
     @RequestMapping(value = "/isLogined/{sessionId}", method = RequestMethod.GET)
     public Result isLogined(@PathVariable("sessionId") String sessionId) {
         sessionId = sessionId.replaceAll("FRSC", "shiro:session:");
+        System.out.printf("============session===========");
         return userService.isLogined(sessionId);
     }
 }

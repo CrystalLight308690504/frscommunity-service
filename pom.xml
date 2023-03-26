@@ -11,94 +11,33 @@
         <module>FRSCommunityCommon</module>
         <module>FRSCommunityModel</module>
         <module>FRSCommunitySystem</module>
+        <module>FRSCommunityEureka</module>
     </modules>
-
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.0.M3</version>
-        <relativePath/>
-    </parent>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.11</java.version>
-        <fastjson.version>1.2.47</fastjson.version>
-        <springframework.version>2.2.0.M3</springframework.version>
     </properties>
-
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.6.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
     <dependencyManagement>
         <dependencies>
+            <!--在主工程中使用 dependencyManagement 声明 Spring Cloud 的版本，
+            这样工程内的 Module 中引入 Spring Cloud 组件依赖时，就不必在声明组件的版本信息
+            保证 Spring Cloud 各个组件一致性-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Finchley.SR1</version>
+                <version>Hoxton.SR12</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-logging</artifactId>
-            <version>${springframework.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <version>${springframework.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>${springframework.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.17</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <version>${springframework.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>${fastjson.version}</version>
-        </dependency>
-        <!--shiro和spring整合-->
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring</artifactId>
-            <version>1.3.2</version>
-        </dependency>
-        <!--shiro核心包-->
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-core</artifactId>
-            <version>1.3.2</version>
-        </dependency>
-        <!--shiro与redis整合-->
-        <dependency>
-            <groupId>org.crazycake</groupId>
-            <artifactId>shiro-redis</artifactId>
-            <version>3.0.0</version>
-        </dependency>
-        <!--lombok-->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
-        </dependency>
-
-    </dependencies>
 
     <repositories>
         <repository>
@@ -151,5 +90,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

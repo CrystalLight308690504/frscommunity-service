@@ -14,6 +14,9 @@
         <module name="FRSCommunityModel" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="frscommunityservice" target="11" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -21,7 +24,7 @@
       <module name="FRSCommunityCommon" options="-parameters" />
       <module name="FRSCommunityEureka" options="-parameters" />
       <module name="FRSCommunityModel" options="" />
-      <module name="FRSCommunityServer" options="" />
+      <module name="FRSCommunityServer" options="-parameters" />
       <module name="FRSCommunitySystem" options="-parameters" />
       <module name="frscommunityservice" options="-parameters" />
     </option>

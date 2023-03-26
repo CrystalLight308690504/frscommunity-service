@@ -1,6 +1,13 @@
 #服务配置
 server:
   port: 9002
+#eruka配置
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+  instance:
+    prefer-ip-address: true
 #spring配置
 spring:
   #1.应用配置
@@ -25,10 +32,3 @@ spring:
     host: 42.194.211.199
     port: 6379
     password: Rxz129810.@EDIS
-
-  eureka:
-    client:
-      service-url:
-      defaultZone: http://localhost:9000/eureka
-      instance:
-      prefer-ip-address: true
