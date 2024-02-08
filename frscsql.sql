@@ -1,41 +1,5 @@
-CREATE DATABASE if not exists `frscommunity` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-use frscommunity;
-drop table if exists api;
-CREATE TABLE `api`
-(
-    `api_id`      bigint NOT NULL,
-    `method_name` varchar(12) DEFAULT NULL,
-    `url`         varchar(12) DEFAULT NULL COMMENT '请求aoi路径',
-    `code`        varchar(12) DEFAULT NULL COMMENT 'api 标识',
-    PRIMARY KEY (`api_id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
-
-drop table if exists button;
-CREATE TABLE `button`
-(
-    `btn_id`      bigint NOT NULL,
-    `btn_name`    varchar(12) DEFAULT NULL,
-    `description` varchar(64) DEFAULT NULL,
-    `code`        varchar(12) DEFAULT NULL,
-    PRIMARY KEY (`btn_id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
-
-drop table if exists menu;
-CREATE TABLE `menu`
-(
-    `menu_id`     bigint NOT NULL,
-    `parent_id`   bigint      DEFAULT NULL,
-    `menu_name`   varchar(12) DEFAULT NULL,
-    `description` varchar(64) DEFAULT NULL COMMENT '菜单说明',
-    `code`        varchar(12) DEFAULT NULL COMMENT '菜单标识',
-    PRIMARY KEY (`menu_id`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+CREATE DATABASE if not exists `frscommunity_user` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+use frscommunity_user;
 
 drop table if exists permission;
 CREATE TABLE `permission`
@@ -48,33 +12,6 @@ CREATE TABLE `permission`
     `type_id`         bigint       DEFAULT NULL COMMENT '类型的id',
     PRIMARY KEY (`permission_id`),
     KEY `index_type` (`type`)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
-
-drop table if exists permission_api;
-CREATE TABLE `permission_api`
-(
-    `permission_id` bigint DEFAULT NULL,
-    `api_id`        bigint DEFAULT NULL
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
-
-drop table if exists permission_menu;
-CREATE TABLE `permission_menu`
-(
-    `permission_id` bigint DEFAULT NULL,
-    `btn_id`        bigint DEFAULT NULL
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
-
-drop table if exists permission_button;
-CREATE TABLE `permission_button`
-(
-    `permission_id` bigint DEFAULT NULL,
-    `menu_id`       bigint DEFAULT NULL
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
@@ -111,7 +48,7 @@ CREATE TABLE `user`
     `profession`      varchar(255)   DEFAULT NULL COMMENT '职业',
     `description`     varbinary(255) DEFAULT NULL COMMENT '用户自我描述',
     `address_ip`      varchar(255)   DEFAULT NULL COMMENT '上次登陆ip地址',
-    'role_id' bigint DEFAULT 1 ,
+    ·role_id·skating_type bigint DEFAULT 1 ,
     PRIMARY KEY (`user_id`),
     index `Index_phone` (`phone_number`),
     index `Index_email` (`email`),
@@ -139,7 +76,26 @@ CREATE TABLE `user_state`
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci;
+/*==============================================================*/
+/* Table: user_follower                                         */
+/*==============================================================*/
+create table user_follower
+(
+    follower_id      bigint not null,
+    user_id          bigint comment '关注的用户id',
+    user_followed_id bigint comment '被关注的用户id',
+    created_time     datetime comment '创建事件',
+    primary key (follower_id)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci;
 
+
+/*==============================================================*/
+/* database: frscommunity_Blog                                         */
+/*==============================================================*/
+CREATE DATABASE if not exists `frscommunity_Blog` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+use frscommunity_Blog;
 /*==============================================================*/
 /* Table: skating_type                                         */
 /*==============================================================*/
@@ -227,19 +183,7 @@ create table blog_click_applause
 
 drop table if exists user_follower;
 
-/*==============================================================*/
-/* Table: user_follower                                         */
-/*==============================================================*/
-create table user_follower
-(
-    follower_id      bigint not null,
-    user_id          bigint comment '关注的用户id',
-    user_followed_id bigint comment '被关注的用户id',
-    created_time     datetime comment '创建事件',
-    primary key (follower_id)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci;
+
 
 drop table if exists blog_collection;
 /*==============================================================*/
@@ -253,6 +197,3 @@ create table blog_collection
     created_time  datetime null,
     constraint PK_BLOG_COLLECTION primary key (collection_id)
 )
-
-
-

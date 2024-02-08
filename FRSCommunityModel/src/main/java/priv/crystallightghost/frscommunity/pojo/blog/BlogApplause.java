@@ -12,7 +12,7 @@ import java.sql.Timestamp;
  * description：
  */
 @Entity
-@Table(name = "blog_click_applause", schema = "frscommunity", catalog = "")
+@Table(name = "blog_click_applause", schema = "frscommunity_blog", catalog = "")
 @Data
 public class BlogApplause {
     @Id

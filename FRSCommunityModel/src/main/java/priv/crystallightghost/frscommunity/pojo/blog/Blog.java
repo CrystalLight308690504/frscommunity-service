@@ -15,7 +15,7 @@ import java.sql.Timestamp;
  * description：
  */
 @Entity
-@Table(name = "blog", schema = "frscommunity", catalog = "")
+@Table(name = "blog", schema = "frscommunity_blog", catalog = "")
 @Data
 public class Blog {
     @Id

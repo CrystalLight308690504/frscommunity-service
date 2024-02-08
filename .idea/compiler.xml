@@ -30,6 +30,7 @@
       <module name="FRSCommunityModel" options="" />
       <module name="FRSCommunityServer" options="-parameters" />
       <module name="FRSCommunitySystem" options="-parameters" />
+      <module name="frscommunity-service" options="-parameters" />
       <module name="frscommunityservice" options="-parameters" />
     </option>
   </component>
