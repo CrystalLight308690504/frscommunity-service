@@ -1,0 +1,45 @@
+#服务配置
+server:
+  port: 9002
+#eruka配置
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+  instance:
+    instance-id: FRS-System
+    prefer-ip-address: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"   # * 在yaml 文件属于关键字，所以需要加引号
+info:
+  app.name: micro-service-cloud-provider-dept-hystrix
+  company.name: c.biancheng.net
+  build.aetifactId: @project.artifactId@
+  build.version: @project.version@
+#spring配置
+spring:
+  #1.应用配置
+  application:
+    name: FRS-User #指定服务名
+  #2.数据库连接池
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://42.194.211.199:3306/frscommunity_blog?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true
+    username: root
+    password: root
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 10
+      max-lifetime: 0
+  #3.JPA
+  jpa:
+    database: MySQL
+    show-sql: true
+    open-in-view: true
+  redis:
+    host: 42.194.211.199
+    port: 6379
+    password: 123456

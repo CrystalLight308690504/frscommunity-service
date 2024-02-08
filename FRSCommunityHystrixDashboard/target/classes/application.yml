@@ -1,8 +1,0 @@
-server:
-  port: 9100  #端口号
-#http://eureka7001.com:9002/hystrix 熔断器监控页面
-# localhost:8004//actuator/hystrix.stream 监控地址
-hystrix:
-  dashboard:
-    proxy-stream-allow-list:
-      - "localhost"

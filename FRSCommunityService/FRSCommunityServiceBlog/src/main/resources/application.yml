@@ -1,0 +1,36 @@
+#????
+server:
+  port: 9003
+#spring??
+spring:
+  #1.????
+  application:
+    name: FRS-Blog
+  #2.??????
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://42.194.211.199:3306/frscommunity_blog?serverTimezone=UTC&characterEncoding=utf8&useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true&autoReconnect=true
+    username: root
+    password: root
+    hikari:
+      minimum-idle: 3
+      maximum-pool-size: 5
+      max-lifetime: 0
+  #3.JPA
+  jpa:
+    database: MySQL
+    show-sql: true
+    open-in-view: true
+  redis:
+    host: 42.194.211.199
+    port: 6379
+    password: 123456
+
+#eruka配置
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka
+  instance:
+    prefer-ip-address: true
+

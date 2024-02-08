@@ -7,30 +7,48 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="FRSCommunityServiceUserApi" />
+        <module name="FRSCommunityCommonOther" />
+        <module name="FRSCommunityCommonBlogEntity" />
+        <module name="FRSCommunityServiceBlogApi" />
+        <module name="FRSCommunityCommonUserEntity" />
         <module name="FRSCommunityHystrixDashboard" />
         <module name="FRSCommunityEureka" />
-        <module name="FRSCommunitySystem" />
-        <module name="FRSCommunityCommon" />
-        <module name="FRSCommunityBlog" />
-        <module name="FRSCommunityModel" />
+        <module name="FRSCommunityServiceUser" />
+        <module name="FRSCommunityServiceBlog" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="FRSCommunityBlog" target="11" />
+      <module name="FRSCommunityEureka (1)" target="11" />
       <module name="FRSCommunityHistixDashboard" target="11" />
+      <module name="FRSCommunityModel" target="11" />
       <module name="frscommunityservice" target="11" />
+      <module name="FRSCommunityUser" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="FRSCommunityBlog" options="-parameters" />
       <module name="FRSCommunityCommon" options="-parameters" />
+      <module name="FRSCommunityCommonBlogEntity" options="-parameters" />
+      <module name="FRSCommunityCommonEntity" options="-parameters" />
+      <module name="FRSCommunityCommonOther" options="-parameters" />
+      <module name="FRSCommunityCommonUserEntity" options="-parameters" />
       <module name="FRSCommunityEureka" options="-parameters" />
+      <module name="FRSCommunityEureka (1)" options="-parameters" />
       <module name="FRSCommunityHistixDashboard" options="-parameters" />
       <module name="FRSCommunityHystrixDashboard" options="-parameters" />
       <module name="FRSCommunityModel" options="" />
       <module name="FRSCommunityServer" options="-parameters" />
-      <module name="FRSCommunitySystem" options="-parameters" />
-      <module name="frscommunity-service" options="-parameters" />
+      <module name="FRSCommunityService" options="-parameters" />
+      <module name="FRSCommunityServiceApi" options="-parameters" />
+      <module name="FRSCommunityServiceBlog" options="-parameters" />
+      <module name="FRSCommunityServiceBlogApi" options="-parameters" />
+      <module name="FRSCommunityServiceUser" options="-parameters" />
+      <module name="FRSCommunityServiceUserApi" options="-parameters" />
+      <module name="FRSCommunityUser" options="-parameters" />
+      <module name="frscommunity" options="-parameters" />
       <module name="frscommunityservice" options="-parameters" />
     </option>
   </component>

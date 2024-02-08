@@ -11,9 +11,18 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/FRSCommunityBlog/pom.xml" />
         <option value="$PROJECT_DIR$/FRSCommunityEureka/pom.xml" />
+        <option value="$PROJECT_DIR$/FRSCommunityBlog/pom.xml" />
+        <option value="$PROJECT_DIR$/frscommunityService/FRSCommunityBlog/pom.xml" />
+        <option value="$PROJECT_DIR$/frscommunityService/FRSCommunityUser/pom.xml" />
+        <option value="$PROJECT_DIR$/FRSCommunityService/FRSCommunityServiceUser/pom.xml" />
+        <option value="$PROJECT_DIR$/FRSCommunityService/FRSCommunityServiceBlog/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/FRSCommunityModel/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_19" project-jdk-name="19" project-jdk-type="JavaSDK">
